@@ -212,12 +212,15 @@ const PAGES = [
 
 const GLOBAL_STYLES = `
   @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInDown { from { opacity: 0; transform: translateX(-50%) translateY(-20px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
   @keyframes slideInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
   @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: translateX(0); } }
   @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
   @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
   @keyframes slideRight { from { transform: translateX(0); } to { transform: translateX(280%); } }
+  @keyframes deblurLeft { from { opacity: 0; filter: blur(12px); transform: translateX(-30px); } to { opacity: 1; filter: blur(0); transform: translateX(0); } }
+  @keyframes deblur { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+  @keyframes perfOpen { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
 `;
 
 // ─── STYLES ──────────────────────────────────────────────────
@@ -766,9 +769,12 @@ function AnimationPage() {
         headers={["Context", "Animation", "Duration"]}
         rows={[
           ["Hero content", <span key="a1" style={S.code}>fadeInUp</span>, "0.8s + 0.2s delay"],
-          ["Navbar", <span key="a2" style={S.code}>fadeInDown</span>, "0.6s"],
+          ["Hero lines", <span key="a1b" style={S.code}>deblurLeft</span>, "0.8s, staggered 0.15/0.35/0.55s"],
+          ["Navbar", <span key="a2" style={S.code}>fadeInDown</span>, "0.6s (includes translateX(-50%))"],
           ["Side content", <span key="a3" style={S.code}>slideInRight</span>, "0.8s + 0.4s delay"],
           ["Floating elements", <span key="a4" style={S.code}>float</span>, "6s infinite"],
+          ["Performance bento", <span key="a5" style={S.code}>perfOpen</span>, "0.6s, triggered by IntersectionObserver"],
+          ["Scroll reveal", <span key="a6" style={S.code}>.reveal + .is-visible</span>, "0.8s translateY(40px) \u2192 0"],
           ["Card hover", "transform: translateY(-4px)", "160ms"],
           ["Button hover", "transform: scale(1.02)", "160ms"],
         ]}
@@ -1139,24 +1145,48 @@ function NavPage() {
       <h1 style={S.pageTitle}>Navigation</h1>
       <p style={S.pageDesc}>Glassmorphism navbar, TOC items, accordion pattern, and section headers.</p>
 
-      <SectionLabel>Navbar (Glassmorphism)</SectionLabel>
-      <div style={{ position: "relative", height: 100, marginBottom: 48, background: "linear-gradient(135deg, #0C0C0C, #1C1C1E)", borderRadius: 24, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <SectionLabel>Navbar (Glassmorphism + CSS Grid)</SectionLabel>
+      <div style={{ position: "relative", height: 100, marginBottom: 24, background: "linear-gradient(135deg, #0C0C0C, #1C1C1E)", borderRadius: 24, overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{
           width: "90%", height: 56, background: "rgba(12,12,12,0.8)",
           border: "1px solid rgba(255,255,255,0.08)", borderRadius: 24,
-          backdropFilter: "blur(20px)", display: "flex", alignItems: "center",
-          justifyContent: "space-between", padding: "0 24px",
+          backdropFilter: "blur(20px)", display: "grid", gridTemplateColumns: "1fr auto 1fr",
+          alignItems: "center", padding: "0 24px",
         }}>
           <span style={{ fontWeight: 500, fontSize: 16 }}>gladia</span>
           <div style={{ display: "flex", gap: 24, fontSize: 14, color: "#A3A3A3" }}>
-            <span>Product</span><span>Solutions</span><span>Pricing</span><span>Developers</span>
+            <span>Product</span><span>Solutions</span><span>Pricing</span><span>Developers</span><span>Company</span>
           </div>
-          <div style={{ display: "flex", gap: 12 }}>
+          <div style={{ display: "flex", gap: 12, justifySelf: "end" }}>
             <button style={btnStyle("ghost", "sm")}>Request a demo</button>
             <button style={btnStyle("primary", "sm")}>Sign up</button>
           </div>
         </div>
       </div>
+      <p style={{ fontSize: 13, color: "#727272", marginBottom: 12, lineHeight: 1.6 }}>
+        Navbar uses <span style={S.code}>display: grid; grid-template-columns: 1fr auto 1fr</span> to center nav links.
+        Logo sits in the first column, links in center, actions in last column with <span style={S.code}>justify-self: end</span>.
+        The <span style={S.code}>fadeInDown</span> keyframe includes <span style={S.code}>translateX(-50%)</span> to preserve centering during animation.
+      </p>
+
+      <SectionLabel>Mega Menu</SectionLabel>
+      <p style={{ fontSize: 13, color: "#727272", marginBottom: 12, lineHeight: 1.6 }}>
+        4 panels: <span style={S.code}>Product</span>, <span style={S.code}>Solutions</span>, <span style={S.code}>Developers</span>, <span style={S.code}>Company</span>.
+        Triggered on hover via <span style={S.code}>data-menu</span> buttons + JS. Uses same glassmorphism as navbar.
+      </p>
+      <SpecTable
+        headers={["Property", "Value"]}
+        rows={[
+          ["Container", <span key="v" style={S.code}>.mega-menu — absolute below navbar</span>],
+          ["Layout", <span key="v" style={S.code}>grid: 1fr 1fr 1fr 280px (3 cols + featured)</span>],
+          ["Background", <span key="v" style={S.code}>--bg-glass + backdrop-filter: blur(20px)</span>],
+          ["Transition", "opacity + translateY(-8px), 0.25s ease-out"],
+          ["Hover bridge", <span key="v" style={S.code}>.mega-menu-bridge — 16px invisible gap filler</span>],
+          ["Panel toggle", <span key="v" style={S.code}>.mega-menu-panel.is-visible (display: grid)</span>],
+          ["Item hover", <span key="v" style={S.code}>background: --bg-glass-light</span>],
+          ["Featured area", <span key="v" style={S.code}>.mega-menu-featured — bg-secondary, radius-2</span>],
+        ]}
+      />
 
       <SectionLabel>TOC Item</SectionLabel>
       <div style={{ display: "flex", flexDirection: "column", gap: 8, maxWidth: 500, marginBottom: 48 }}>
@@ -1228,9 +1258,8 @@ function PatternsPage() {
       <SpecTable
         headers={["Property", "Value"]}
         rows={[
-          ["Section padding", <span key="v" style={S.code}>--space-15 (120px) vertical</span>],
+          ["Section padding", <span key="v" style={S.code}>--space-8 (64px) vertical</span>],
           ["Content gap", <span key="v" style={S.code}>--space-6 to --space-8</span>],
-          ["Border between sections", <span key="v">1px solid <span style={S.code}>--border-tertiary</span></span>],
           ["Section dark variant", <span key="v" style={S.code}>--bg-secondary</span>],
         ]}
       />
@@ -1298,13 +1327,13 @@ function PatternsPage() {
         <h2 style={{ fontSize: 32, fontWeight: 500, letterSpacing: "-0.02em", marginBottom: 8 }}>Hero Title Here</h2>
         <p style={{ fontSize: 16, color: "#A3A3A3", marginBottom: 24, maxWidth: 400 }}>Supporting subtitle text with secondary color.</p>
         <div style={{ display: "flex", gap: 12 }}>
-          <button style={btnStyle("primary", "lg")}>Primary CTA</button>
-          <button style={btnStyle("secondary", "lg")}>Secondary CTA</button>
+          <button style={btnStyle("primary", "md")}>Primary CTA</button>
+          <button style={btnStyle("secondary", "md")}>Secondary CTA</button>
         </div>
         <div style={{
           position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)",
           fontSize: 11, fontFamily: "'Geist Mono', monospace", color: "#515151",
-        }}>{"min-height: 100vh \u00B7 padding: space-20 / space-15 \u00B7 max-width: 800px"}</div>
+        }}>{"min-height: 100vh \u00B7 padding: space-20 / space-8 \u00B7 max-width: 800px \u00B7 btn-md"}</div>
       </div>
 
       <SectionLabel>Checklist Item</SectionLabel>
@@ -1372,13 +1401,13 @@ const BENTO_HERO_SPECS = [
 ];
 
 const BENTO_CTA_SPECS = [
-  { prop: "Height", value: "48px" },
+  { prop: "Height", value: "40px" },
   { prop: "Padding", value: "0 --space-3 (24px)" },
   { prop: "Background", value: "--bg-inverse (#FFFFFF)" },
   { prop: "Text", value: "--text-inverse / --font-size-14 / medium" },
   { prop: "Radius", value: "--radius-5 (40px)" },
   { prop: "Position", value: "absolute, bottom: --space-4, left: --space-4" },
-  { prop: "Hover", value: "scale(1.02) + box-shadow" },
+  { prop: "Hover", value: "text-slide animation (translateY swap) + scale(1.02) + box-shadow" },
 ];
 
 const BENTO_CELL_SPECS = [
@@ -1777,7 +1806,7 @@ function BentoPage() {
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center", justifyContent: "center" }}>
           <button style={{
-            height: 48, padding: "0 24px", background: "#fff", color: "#000",
+            height: 40, padding: "0 24px", background: "#fff", color: "#000",
             border: "none", borderRadius: 40, fontSize: 14, fontWeight: 500,
             cursor: "pointer", transition: "all 160ms",
           }}

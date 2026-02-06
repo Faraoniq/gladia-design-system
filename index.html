@@ -1885,6 +1885,7 @@
       inset: auto;
       min-height: 0;
       padding: 0 var(--space-4) var(--space-4);
+      background: var(--color-neutral-1000);
     }
     #performance .b__hero-overlay .b__hero-visual::after {
       display: none;
@@ -1971,7 +1972,7 @@
       height: 32px;
       padding: 12px 20px;
       margin: 0 20px;
-      background: #111113;
+      background: var(--color-neutral-1000);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.08);
     }
@@ -1992,7 +1993,7 @@
       flex: 1;
       padding: 16px 20px;
       margin: 12px 20px;
-      background: #111113;
+      background: var(--color-neutral-1000);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.08);
       overflow: hidden;
@@ -2056,7 +2057,7 @@
       flex-wrap: wrap;
       padding: 10px 20px;
       margin: 0 20px 20px;
-      background: #111113;
+      background: var(--color-neutral-1000);
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.08);
     }
@@ -3253,15 +3254,15 @@
     ];
 
     const entities = [
-      { text: '23% increase', line: 0, delay: 70 },
-      { text: 'EMEA', line: 2, delay: 165 },
-      { text: 'North America', line: 2, delay: 170 },
-      { text: 'APAC', line: 2, delay: 175 },
-      { text: '142%', line: 4, delay: 285 }
+      { text: '23% increase', line: 0, delay: 140 },
+      { text: 'EMEA', line: 2, delay: 330 },
+      { text: 'North America', line: 2, delay: 340 },
+      { text: 'APAC', line: 2, delay: 350 },
+      { text: '142%', line: 4, delay: 570 }
     ];
 
-    const lineStarts = [30, 80, 135, 190, 245];
-    const DURATION = 300;
+    const lineStarts = [60, 160, 270, 380, 490];
+    const DURATION = 600;
     const latencies = ['287ms', '245ms', '312ms', '198ms', '265ms', '301ms', '223ms'];
 
     let frame = 0;
@@ -3285,13 +3286,13 @@
       const f = frame;
 
       // Status
-      const active = f > 10 && f < DURATION - 20;
+      const active = f > 20 && f < DURATION - 40;
       dot.classList.toggle('active', active);
       statusText.textContent = active ? 'Transcribing...' : 'Ready';
       latencyEl.classList.toggle('active', f > 20);
 
       // Latency value
-      const lIdx = Math.floor(f / 25) % latencies.length;
+      const lIdx = Math.floor(f / 50) % latencies.length;
       const val = latencies[lIdx];
       const isLow = parseInt(val) < 300;
       latencyValue.textContent = val + ' latency';
@@ -3300,7 +3301,7 @@
       // Waveform
       for (let i = 0; i < bars.length; i++) {
         if (active) {
-          const wave = Math.abs(Math.sin((f * 0.12) + i * 0.7)) * (20 + Math.sin(i * 1.3 + f * 0.05) * 12);
+          const wave = Math.abs(Math.sin((f * 0.06) + i * 0.7)) * (20 + Math.sin(i * 1.3 + f * 0.025) * 12);
           const h = Math.max(4, Math.min(32, wave));
           bars[i].style.height = h + 'px';
           bars[i].classList.add('active');
@@ -3325,12 +3326,12 @@
 
         lineEl.classList.add('visible');
         const words = lines[li].split(' ');
-        const visibleCount = Math.min(Math.floor(elapsed * 0.25), words.length);
+        const visibleCount = Math.min(Math.floor(elapsed * 0.12), words.length);
         const visibleText = words.slice(0, visibleCount).join(' ');
         const isComplete = visibleCount >= words.length;
 
         let html = highlightEntities(lines[li], visibleText, li, f);
-        if (!isComplete) html += '<span class="perf-cursor" style="opacity:' + (Math.sin(f * 0.2) > 0 ? 1 : 0.3) + '"></span>';
+        if (!isComplete) html += '<span class="perf-cursor" style="opacity:' + (Math.sin(f * 0.1) > 0 ? 1 : 0.3) + '"></span>';
         textEl.innerHTML = html;
       }
 
