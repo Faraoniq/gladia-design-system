@@ -946,36 +946,62 @@
        ===================================================== */
 
     .logo-strip {
-      padding: var(--space-8) 0;
+      padding: var(--space-4) 0 var(--space-8);
       overflow: hidden;
+      position: relative;
+    }
+    .logo-strip::before,
+    .logo-strip::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 40%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .logo-strip::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-primary) 30%, transparent 100%);
+    }
+    .logo-strip::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-primary) 30%, transparent 100%);
     }
 
     .logo-strip-label {
       text-align: center;
       font-size: var(--font-size-14);
+      font-weight: var(--font-weight-medium);
+      letter-spacing: var(--letter-spacing-wide);
+      text-transform: uppercase;
       color: var(--text-tertiary);
-      margin-bottom: var(--space-5);
+      margin-bottom: var(--space-4);
+      position: relative;
+      z-index: 3;
+    }
+    .logo-strip-label strong {
+      color: var(--text-secondary);
     }
 
     .logo-strip-track {
       display: flex;
-      animation: scrollLogos 30s linear infinite;
+      animation: scrollLogos 60s linear infinite;
       width: max-content;
     }
 
     .logo-strip-set {
       display: flex;
       align-items: center;
-      gap: var(--space-8);
-      padding: 0 var(--space-4);
+      gap: var(--space-10);
+      padding: 0 var(--space-5);
     }
 
     .logo-item {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 32px;
-      opacity: 0.4;
+      height: 40px;
+      opacity: 0.5;
       transition: opacity var(--duration-2) var(--easing-out);
       color: var(--text-secondary);
       font-size: var(--font-size-18);
@@ -985,7 +1011,7 @@
     }
 
     .logo-item img {
-      height: 24px;
+      height: 32px;
       width: auto;
       display: block;
     }
@@ -2107,6 +2133,107 @@
     .b--animated .b__cell:nth-child(4) { opacity: 0; animation: fadeInUp 0.6s var(--easing-out) 0.6s forwards; }
 
     /* =====================================================
+       INTEGRATION — Stacked layout + Terminal animation
+       ===================================================== */
+
+    #integration .b__hero-overlay {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    #integration .b__hero-overlay .b__hero-content {
+      position: relative;
+      top: auto; left: auto; right: auto;
+      padding: var(--space-5) var(--space-4);
+      z-index: 2;
+    }
+    #integration .b__hero-overlay .b__hero-visual {
+      position: relative;
+      inset: auto;
+      min-height: 0;
+      padding: 0 var(--space-4) var(--space-4);
+      background: var(--color-neutral-1000);
+    }
+    #integration .b__hero-overlay .b__hero-visual::after {
+      display: none;
+    }
+    #integration .b__cta {
+      position: relative;
+      bottom: auto; left: auto;
+      margin: 0 var(--space-4) var(--space-4);
+      align-self: flex-start;
+    }
+
+    .intg-terminal {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-transparent-subtle);
+      border-radius: var(--radius-3);
+      overflow: hidden;
+      font-family: 'Geist Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      animation: perfOpen 0.6s var(--easing-out) forwards;
+      opacity: 0;
+    }
+    .intg-terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 14px 20px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-transparent-subtle);
+    }
+    .intg-terminal-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      opacity: 0.85;
+    }
+    .intg-terminal-dot:nth-child(1) { background: #FF5F57; }
+    .intg-terminal-dot:nth-child(2) { background: #FFBD2E; }
+    .intg-terminal-dot:nth-child(3) { background: #28CA42; }
+    .intg-terminal-label {
+      margin-left: 14px;
+      font-size: 11px;
+      font-family: 'Geist Mono', monospace;
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .intg-terminal-body {
+      padding: var(--space-3);
+      min-height: 180px;
+    }
+    .intg-line {
+      white-space: pre-wrap;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .intg-line.visible { opacity: 1; }
+    .intg-prompt { color: var(--color-green-500); }
+    .intg-cmd { color: #E2E2E2; }
+    .intg-flag { color: var(--color-purple-400); }
+    .intg-string { color: #FFBD2E; }
+    .intg-key { color: var(--color-purple-400); }
+    .intg-val { color: var(--color-green-500); }
+    .intg-brace { color: var(--text-tertiary); }
+    .intg-cursor {
+      display: inline-block;
+      width: 7px; height: 15px;
+      background: var(--color-purple-400);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      border-radius: 1px;
+    }
+    .intg-response {
+      margin-top: var(--space-2);
+      padding-top: var(--space-2);
+      border-top: 1px solid var(--border-transparent-subtle);
+      opacity: 0;
+      transition: opacity 0.8s;
+    }
+    .intg-response.visible { opacity: 1; }
+
+    /* =====================================================
        RESPONSIVE
        ===================================================== */
 
@@ -2547,13 +2674,13 @@
       </p>
 
       <div class="hero-actions">
-        <a href="#" class="btn btn-primary btn-md">
+        <a href="#" class="btn btn-primary btn-sm">
           <span class="btn-text-wrapper">
             <span class="btn-text">Request a demo</span>
             <span class="btn-text-clone">Request a demo</span>
           </span>
         </a>
-        <a href="#" class="btn btn-secondary btn-md">
+        <a href="#" class="btn btn-secondary btn-sm">
           <span class="btn-text-wrapper">
             <span class="btn-text">Sign up for free</span>
             <span class="btn-text-clone">Sign up for free</span>
@@ -2565,7 +2692,7 @@
 
   <!-- ==================== LOGO STRIP ==================== -->
   <div class="logo-strip">
-    <p class="logo-strip-label">Trusted by 300,000+ developers worldwide</p>
+    <p class="logo-strip-label">Trusted by <strong>300,000+</strong> developers worldwide</p>
     <div class="logo-strip-track">
       <div class="logo-strip-set">
         <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Klarna-logo.svg" alt="Klarna"></span>
@@ -2778,7 +2905,17 @@
             <h2 class="b__hero-title">Developer-first<br>experience</h2>
             <p class="b__hero-subtitle">Plug. Build. Ship.</p>
           </div>
-          <div class="b__hero-visual"></div>
+          <div class="b__hero-visual">
+            <div class="intg-terminal" id="intg-terminal">
+              <div class="intg-terminal-bar">
+                <div class="intg-terminal-dot"></div>
+                <div class="intg-terminal-dot"></div>
+                <div class="intg-terminal-dot"></div>
+                <span class="intg-terminal-label">terminal</span>
+              </div>
+              <div class="intg-terminal-body" id="intg-body"></div>
+            </div>
+          </div>
           <a href="#" class="b__cta">
             <span class="btn-text-wrapper">
               <span class="btn-text">Documentation</span>
@@ -3254,15 +3391,15 @@
     ];
 
     const entities = [
-      { text: '23% increase', line: 0, delay: 140 },
-      { text: 'EMEA', line: 2, delay: 330 },
-      { text: 'North America', line: 2, delay: 340 },
-      { text: 'APAC', line: 2, delay: 350 },
-      { text: '142%', line: 4, delay: 570 }
+      { text: '23% increase', line: 0, delay: 280 },
+      { text: 'EMEA', line: 2, delay: 660 },
+      { text: 'North America', line: 2, delay: 680 },
+      { text: 'APAC', line: 2, delay: 700 },
+      { text: '142%', line: 4, delay: 1140 }
     ];
 
-    const lineStarts = [60, 160, 270, 380, 490];
-    const DURATION = 600;
+    const lineStarts = [120, 320, 540, 760, 980];
+    const DURATION = 1200;
     const latencies = ['287ms', '245ms', '312ms', '198ms', '265ms', '301ms', '223ms'];
 
     let frame = 0;
@@ -3286,13 +3423,13 @@
       const f = frame;
 
       // Status
-      const active = f > 20 && f < DURATION - 40;
+      const active = f > 40 && f < DURATION - 80;
       dot.classList.toggle('active', active);
       statusText.textContent = active ? 'Transcribing...' : 'Ready';
       latencyEl.classList.toggle('active', f > 20);
 
       // Latency value
-      const lIdx = Math.floor(f / 50) % latencies.length;
+      const lIdx = Math.floor(f / 100) % latencies.length;
       const val = latencies[lIdx];
       const isLow = parseInt(val) < 300;
       latencyValue.textContent = val + ' latency';
@@ -3301,7 +3438,7 @@
       // Waveform
       for (let i = 0; i < bars.length; i++) {
         if (active) {
-          const wave = Math.abs(Math.sin((f * 0.06) + i * 0.7)) * (20 + Math.sin(i * 1.3 + f * 0.025) * 12);
+          const wave = Math.abs(Math.sin((f * 0.03) + i * 0.7)) * (20 + Math.sin(i * 1.3 + f * 0.012) * 12);
           const h = Math.max(4, Math.min(32, wave));
           bars[i].style.height = h + 'px';
           bars[i].classList.add('active');
@@ -3326,12 +3463,12 @@
 
         lineEl.classList.add('visible');
         const words = lines[li].split(' ');
-        const visibleCount = Math.min(Math.floor(elapsed * 0.12), words.length);
+        const visibleCount = Math.min(Math.floor(elapsed * 0.06), words.length);
         const visibleText = words.slice(0, visibleCount).join(' ');
         const isComplete = visibleCount >= words.length;
 
         let html = highlightEntities(lines[li], visibleText, li, f);
-        if (!isComplete) html += '<span class="perf-cursor" style="opacity:' + (Math.sin(f * 0.1) > 0 ? 1 : 0.3) + '"></span>';
+        if (!isComplete) html += '<span class="perf-cursor" style="opacity:' + (Math.sin(f * 0.05) > 0 ? 1 : 0.3) + '"></span>';
         textEl.innerHTML = html;
       }
 
@@ -3358,6 +3495,121 @@
       });
     }, { threshold: 0.2 });
     obs.observe(container);
+  })();
+
+  /* =====================================================
+     INTEGRATION TERMINAL ANIMATION
+     ===================================================== */
+  (function() {
+    const body = document.getElementById('intg-body');
+    if (!body) return;
+
+    const cmdParts = [
+      { text: '$ ', cls: 'intg-prompt' },
+      { text: 'curl ', cls: 'intg-cmd' },
+      { text: '-X POST ', cls: 'intg-flag' },
+      { text: 'gladia.com/v2/transcription ', cls: 'intg-string' },
+      { text: '\\\n  ', cls: 'intg-cmd' },
+      { text: '-H ', cls: 'intg-flag' },
+      { text: '"x-gladia-key: sk-••••••••" ', cls: 'intg-string' },
+      { text: '\\\n  ', cls: 'intg-cmd' },
+      { text: '-F ', cls: 'intg-flag' },
+      { text: 'audio=@meeting.mp3', cls: 'intg-string' },
+    ];
+
+    const responseLines = [
+      '<span class="intg-brace">{</span>',
+      '  <span class="intg-key">"status"</span>: <span class="intg-string">"done"</span>,',
+      '  <span class="intg-key">"duration"</span>: <span class="intg-val">184.2</span>,',
+      '  <span class="intg-key">"confidence"</span>: <span class="intg-val">0.97</span>,',
+      '  <span class="intg-key">"text"</span>: <span class="intg-string">"Revenue grew 23% this quarter..."</span>',
+      '<span class="intg-brace">}</span>',
+    ];
+
+    // Build the full command string for character-by-character typing
+    let fullCmd = '';
+    const charStyles = [];
+    for (const part of cmdParts) {
+      for (const ch of part.text) {
+        fullCmd += ch;
+        charStyles.push(part.cls);
+      }
+    }
+
+    const TYPING_SPEED = 3;       // frames per character
+    const RESPONSE_DELAY = 60;    // frames after typing finishes
+    const RESPONSE_LINE_GAP = 20; // frames between each JSON line
+    const HOLD_DURATION = 300;    // frames to hold the complete state
+    const TOTAL = fullCmd.length * TYPING_SPEED + RESPONSE_DELAY + responseLines.length * RESPONSE_LINE_GAP + HOLD_DURATION;
+
+    let frame = 0;
+    let playing = false;
+    let raf;
+
+    function render() {
+      const f = frame;
+      const typedCount = Math.min(Math.floor(f / TYPING_SPEED), fullCmd.length);
+      const typingDone = typedCount >= fullCmd.length;
+      const typingEndFrame = fullCmd.length * TYPING_SPEED;
+
+      // Build command HTML
+      let cmdHtml = '';
+      let prevCls = '';
+      for (let i = 0; i < typedCount; i++) {
+        const cls = charStyles[i];
+        const ch = fullCmd[i] === '\n' ? '<br>' : (fullCmd[i] === ' ' ? '&nbsp;' : fullCmd[i].replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+        if (cls !== prevCls) {
+          if (prevCls) cmdHtml += '</span>';
+          cmdHtml += '<span class="' + cls + '">';
+          prevCls = cls;
+        }
+        cmdHtml += ch;
+      }
+      if (prevCls) cmdHtml += '</span>';
+
+      // Blinking cursor while typing
+      if (!typingDone) {
+        const cursorOn = Math.sin(f * 0.08) > 0;
+        cmdHtml += '<span class="intg-cursor" style="opacity:' + (cursorOn ? 1 : 0.2) + '"></span>';
+      }
+
+      // Response lines
+      let respHtml = '';
+      if (typingDone) {
+        const respFrame = f - typingEndFrame - RESPONSE_DELAY;
+        if (respFrame > 0) {
+          const visibleLines = Math.min(Math.floor(respFrame / RESPONSE_LINE_GAP) + 1, responseLines.length);
+          respHtml = '<div class="intg-response visible" style="opacity:1">';
+          for (let i = 0; i < visibleLines; i++) {
+            respHtml += '<div class="intg-line visible">' + responseLines[i] + '</div>';
+          }
+          respHtml += '</div>';
+        }
+      }
+
+      body.innerHTML = '<div class="intg-line visible" style="white-space:pre-wrap">' + cmdHtml + '</div>' + respHtml;
+    }
+
+    function animate() {
+      if (!playing) return;
+      frame = (frame + 1) % TOTAL;
+      render();
+      raf = requestAnimationFrame(animate);
+    }
+
+    const section = document.getElementById('integration');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !playing) {
+          playing = true;
+          animate();
+        } else if (!entry.isIntersecting && playing) {
+          playing = false;
+          cancelAnimationFrame(raf);
+        }
+      });
+    }, { threshold: 0.2 });
+    obs.observe(section);
   })();
 
   /* =====================================================
