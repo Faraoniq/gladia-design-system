@@ -4,16 +4,19 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "git pull origin main && vite --open /ds-viewer.html",
+    "start": "git pull origin main && python3 -m http.server 8080 & vite --open /ds-viewer.html & sleep 1 && open http://localhost:8080; wait",
     "dev": "vite --open /ds-viewer.html",
-    "homepage": "open index.html && python3 -m http.server 8080",
+    "homepage": "python3 -m http.server 8080 & sleep 0.5 && open http://localhost:8080; wait",
     "build": "vite build",
     "preview": "vite preview",
     "push": "git add -A && git commit -m 'Update design system' && git push origin main"
   },
   "dependencies": {
+    "@remotion/cli": "^4.0.419",
+    "@remotion/player": "^4.0.419",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "remotion": "^4.0.419"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

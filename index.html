@@ -289,8 +289,23 @@
     }
 
     @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    @keyframes deblurLeft {
+      from { opacity: 0; filter: blur(12px); transform: translateX(-30px); }
+      to { opacity: 1; filter: blur(0); transform: translateX(0); }
+    }
+
+    @keyframes deblur {
+      from { opacity: 0; filter: blur(10px); }
+      to { opacity: 1; filter: blur(0); }
+    }
+
+    @keyframes perfOpen {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes slideInRight {
@@ -366,9 +381,9 @@
     }
 
     .navbar-inner {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items: center;
-      justify-content: space-between;
       padding: 0 var(--space-3);
       height: 100%;
     }
@@ -404,6 +419,176 @@
       display: flex;
       align-items: center;
       gap: var(--space-2);
+      justify-self: end;
+    }
+
+    /* =====================================================
+       MEGA MENU
+       ===================================================== */
+
+    .mega-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-transparent-subtle);
+      border-radius: var(--radius-3);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-top: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 0.25s var(--easing-out), transform 0.25s var(--easing-out), visibility 0.25s;
+      z-index: 200;
+      overflow: hidden;
+    }
+
+    .mega-menu.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .mega-menu-bridge {
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      right: 0;
+      height: 16px;
+    }
+
+    .mega-menu-panel {
+      display: none;
+      padding: var(--space-4);
+    }
+
+    .mega-menu-panel.is-visible {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 280px;
+      gap: var(--space-3);
+    }
+
+    .mega-menu-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .mega-menu-col-title {
+      font-size: var(--font-size-10);
+      font-weight: var(--font-weight-medium);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-widest);
+      color: var(--text-tertiary);
+      padding: var(--space-1) var(--space-2);
+      margin-bottom: var(--space-1);
+    }
+
+    .mega-menu-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      padding: var(--space-2);
+      border-radius: var(--radius-2);
+      transition: background var(--duration-2) var(--easing-out);
+      text-decoration: none;
+    }
+
+    .mega-menu-item:hover {
+      background: var(--bg-glass-light);
+    }
+
+    .mega-menu-item-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-1);
+      background: var(--bg-tertiary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--color-purple-400);
+      font-size: 16px;
+    }
+
+    .mega-menu-item-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mega-menu-item-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-primary);
+    }
+
+    .mega-menu-item-desc {
+      font-size: var(--font-size-12);
+      color: var(--text-tertiary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .mega-menu-featured {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-2);
+      padding: var(--space-3);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .mega-menu-featured-title {
+      font-size: var(--font-size-10);
+      font-weight: var(--font-weight-medium);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-widest);
+      color: var(--text-tertiary);
+    }
+
+    .mega-menu-featured-card {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      padding: var(--space-2);
+      border-radius: var(--radius-1);
+      transition: background var(--duration-2) var(--easing-out);
+      text-decoration: none;
+    }
+
+    .mega-menu-featured-card:hover {
+      background: var(--bg-glass-light);
+    }
+
+    .mega-menu-featured-card-title {
+      font-size: var(--font-size-14);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-primary);
+    }
+
+    .mega-menu-featured-card-desc {
+      font-size: var(--font-size-12);
+      color: var(--text-tertiary);
+      line-height: var(--line-height-relaxed);
+    }
+
+    .navbar-links button {
+      background: none;
+      border: none;
+      font-size: var(--font-size-14);
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: color var(--duration-2) var(--easing-out);
+      padding: 0;
+    }
+
+    .navbar-links button:hover {
+      color: var(--text-primary);
     }
 
     /* =====================================================
@@ -697,13 +882,71 @@
       flex-wrap: wrap;
     }
 
+    /* Hero line-by-line deblur */
+    .hero-line {
+      display: block;
+      opacity: 0;
+      animation: deblurLeft 0.8s var(--easing-out) forwards;
+    }
+    .hero-line:nth-child(1) { animation-delay: 0.15s; }
+    .hero-line:nth-child(2) { animation-delay: 0.35s; }
+    .hero-line:nth-child(3) { animation-delay: 0.55s; }
+
+    /* Hero ambient background */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .hero-bg svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-bg__n {
+      position: absolute;
+      border-radius: 50%;
+      will-change: transform;
+    }
+    .hero-bg__n1 {
+      width: 700px; height: 500px;
+      left: calc(50% - 500px); top: 15%;
+      background: radial-gradient(ellipse at 60% 60%, rgba(8,145,178,0.35) 0%, rgba(14,116,144,0.15) 40%, transparent 70%);
+      filter: blur(60px);
+    }
+    .hero-bg__n2 {
+      width: 900px; height: 600px;
+      left: calc(50% - 350px); top: 10%;
+      background: radial-gradient(ellipse at 50% 65%, rgba(46,16,101,0.45) 0%, rgba(30,10,60,0.2) 40%, transparent 70%);
+      filter: blur(50px);
+    }
+    .hero-bg__n3 {
+      width: 800px; height: 550px;
+      left: calc(50% - 250px); top: 18%;
+      background: radial-gradient(ellipse at 52% 70%, rgba(147,51,234,0.35) 0%, rgba(126,34,206,0.15) 35%, transparent 70%);
+      filter: blur(45px);
+    }
+    .hero-bg__n4 {
+      width: 650px; height: 450px;
+      left: calc(50% - 150px); top: 22%;
+      background: radial-gradient(ellipse at 50% 70%, rgba(192,132,252,0.3) 0%, rgba(168,85,247,0.15) 35%, transparent 70%);
+      filter: blur(40px);
+    }
+    .hero-bg__n5 {
+      width: 750px; height: 500px;
+      left: calc(50% + 50px); top: 14%;
+      background: radial-gradient(ellipse at 55% 65%, rgba(67,56,202,0.3) 0%, rgba(49,46,129,0.15) 35%, transparent 70%);
+      filter: blur(50px);
+    }
+
     /* =====================================================
        LOGO STRIP
        ===================================================== */
 
     .logo-strip {
       padding: var(--space-8) 0;
-      border-top: 1px solid var(--border-tertiary);
       overflow: hidden;
     }
 
@@ -741,6 +984,12 @@
       white-space: nowrap;
     }
 
+    .logo-item img {
+      height: 24px;
+      width: auto;
+      display: block;
+    }
+
     .logo-item:hover {
       opacity: 0.8;
     }
@@ -750,8 +999,7 @@
        ===================================================== */
 
     .section {
-      padding: var(--space-15) 0;
-      border-top: 1px solid var(--border-tertiary);
+      padding: var(--space-8) 0;
       background: var(--bg-primary);
     }
 
@@ -894,8 +1142,7 @@
        ===================================================== */
 
     .statement-section {
-      padding: var(--space-15) 0;
-      border-top: 1px solid var(--border-tertiary);
+      padding: var(--space-8) 0;
       text-align: center;
     }
 
@@ -977,8 +1224,7 @@
        ===================================================== */
 
     .testimonials-section {
-      padding: var(--space-15) 0;
-      border-top: 1px solid var(--border-tertiary);
+      padding: var(--space-8) 0;
     }
 
     .testimonials-bento {
@@ -1098,9 +1344,8 @@
        ===================================================== */
 
     .cta-section {
-      padding: var(--space-15) 0;
+      padding: var(--space-8) 0;
       background: var(--bg-primary);
-      border-top: 1px solid var(--border-tertiary);
       text-align: center;
     }
 
@@ -1339,23 +1584,26 @@
       z-index: 3;
       display: inline-flex;
       align-items: center;
-      height: 48px;
+      height: 40px;
       padding: 0 var(--space-3);
       background: var(--bg-inverse);
       color: var(--text-inverse);
       border: none;
       border-radius: var(--radius-5);
       font-size: var(--font-size-14);
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--font-weight-book);
       font-family: var(--font-sans);
       cursor: pointer;
       transition: transform var(--duration-2) var(--easing-out),
                   box-shadow var(--duration-2) var(--easing-out);
+      text-decoration: none;
     }
     .b__cta:hover {
       transform: scale(1.02);
       box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
     }
+    .b__cta:hover .btn-text { transform: translateY(-100%); }
+    .b__cta:hover .btn-text-clone { transform: translateY(0); }
     .b__cta:focus-visible {
       outline: none;
       box-shadow: 0 0 0 3px rgba(26, 158, 255, 0.2);
@@ -1449,8 +1697,7 @@
        ===================================================== */
 
     .compliance-section {
-      padding: var(--space-15) 0;
-      border-top: 1px solid var(--border-tertiary);
+      padding: var(--space-8) 0;
     }
 
     .compliance-wrapper {
@@ -1604,6 +1851,251 @@
       }
     }
 
+    /* =====================================================
+       SCROLL REVEAL
+       ===================================================== */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--easing-out), transform 0.8s var(--easing-out);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =====================================================
+       PERFORMANCE BENTO — Stacked layout override
+       ===================================================== */
+
+    #performance .b__hero-overlay {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    #performance .b__hero-overlay .b__hero-content {
+      position: relative;
+      top: auto; left: auto; right: auto;
+      padding: var(--space-5) var(--space-4);
+      z-index: 2;
+    }
+    #performance .b__hero-overlay .b__hero-visual {
+      position: relative;
+      inset: auto;
+      min-height: 0;
+      padding: 0 var(--space-4) var(--space-4);
+    }
+    #performance .b__hero-overlay .b__hero-visual::after {
+      display: none;
+    }
+    #performance .b__cta {
+      position: relative;
+      bottom: auto; left: auto;
+      margin: 0 var(--space-4) var(--space-4);
+      align-self: flex-start;
+    }
+
+    /* =====================================================
+       PERFORMANCE ANIMATION — Hardcoded
+       ===================================================== */
+
+    .perf-container {
+      background: var(--color-neutral-1000);
+      border-radius: var(--radius-2);
+      overflow: hidden;
+      animation: perfOpen 0.6s var(--easing-out) forwards;
+      opacity: 0;
+    }
+    .perf-container.is-playing {
+      opacity: 1;
+    }
+
+    .perf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+    }
+
+    .perf-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .perf-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-neutral-600);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .perf-status-dot.active {
+      background: var(--color-green-500);
+      box-shadow: 0 0 8px var(--color-green-500);
+    }
+
+    .perf-status-text {
+      font-size: 12px;
+      color: var(--color-neutral-500);
+      font-weight: 500;
+    }
+
+    .perf-latency {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(148,122,252,0.1);
+      border: 1px solid rgba(148,122,252,0.25);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-purple-400);
+      font-family: var(--font-mono);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .perf-latency.active { opacity: 1; }
+
+    .perf-latency-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-purple-400);
+    }
+
+    .perf-waveform {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 32px;
+      padding: 12px 20px;
+      margin: 0 20px;
+      background: #111113;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .perf-bar {
+      width: 3px;
+      border-radius: 2px;
+      background: var(--color-neutral-600);
+      opacity: 0.25;
+      transition: height 80ms ease-out;
+    }
+    .perf-bar.active {
+      background: var(--color-purple-400);
+      opacity: 0.9;
+    }
+
+    .perf-transcript {
+      flex: 1;
+      padding: 16px 20px;
+      margin: 12px 20px;
+      background: #111113;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      min-height: 260px;
+    }
+
+    .perf-line {
+      margin-bottom: 14px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .perf-line.visible { opacity: 1; }
+
+    .perf-speaker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .perf-speaker-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+
+    .perf-speaker-name {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .perf-line-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-primary);
+      padding-left: 16px;
+    }
+
+    .perf-cursor {
+      display: inline-block;
+      width: 2px; height: 16px;
+      background: var(--color-purple-400);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+    }
+
+    .perf-entity-hl {
+      background: rgba(148,122,252,0.15);
+      border: 1px solid rgba(148,122,252,0.3);
+      border-radius: 4px;
+      padding: 1px 4px;
+      margin: 0 1px;
+      color: var(--color-purple-400);
+      font-weight: 500;
+    }
+
+    .perf-entities {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 10px 20px;
+      margin: 0 20px 20px;
+      background: #111113;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .perf-entities-label {
+      font-size: 10px;
+      color: var(--color-neutral-600);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-right: 4px;
+    }
+
+    .perf-entity-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(148,122,252,0.12);
+      border: 1px solid rgba(148,122,252,0.2);
+      border-radius: 6px;
+      font-size: 11px;
+      color: var(--color-purple-400);
+      font-weight: 500;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .perf-entity-tag.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Card hover lift */
+    .feature-card:hover,
+    .benchmark-card:hover {
+      transform: translateY(-4px);
+    }
+
     /* Entry animation */
     .b--animated { animation: fadeInUp 0.8s var(--easing-out) forwards; }
     .b--animated .b__hero { opacity: 0; animation: fadeInUp 0.8s var(--easing-out) 0.1s forwards; }
@@ -1750,17 +2242,17 @@
   <nav class="navbar">
     <div class="navbar-inner">
       <a href="/" class="navbar-logo">
-        <svg viewBox="0 0 100 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <text x="0" y="22" fill="white" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">gladia</text>
+        <svg viewBox="0 0 322 82" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:24px;width:auto;">
+          <path d="M125.497 14.5989C128.431 14.5989 131.174 15.0301 133.728 15.8928C136.299 16.7383 138.594 17.9461 140.613 19.5168C142.632 21.0867 144.289 22.9511 145.583 25.1077C146.894 27.2642 147.748 29.6455 148.146 32.2512H138.362C137.965 30.8536 137.378 29.5935 136.602 28.4719C135.825 27.3506 134.884 26.4014 133.78 25.6252C132.676 24.8317 131.433 24.2364 130.053 23.8391C128.69 23.4246 127.214 23.218 125.626 23.218C122.762 23.2181 120.2 23.9343 117.94 25.3665C115.679 26.7987 113.892 28.904 112.581 31.6819C111.287 34.4426 110.64 37.8078 110.64 41.7766C110.64 45.7798 111.27 49.1706 112.529 51.9485C113.807 54.7264 115.567 56.8416 117.81 58.2903C120.053 59.7225 122.65 60.4387 125.601 60.4387C128.361 60.4387 130.752 59.8958 132.771 58.8088C134.79 57.721 136.343 56.211 137.43 54.2786C138.462 52.4728 139.012 50.4109 139.079 48.092H126.559V40.5862H148.533V68.3333H141.649L140.949 62.1213H140.665C138.801 64.3472 136.653 66.0645 134.22 67.2717C131.787 68.4625 128.896 69.0588 125.549 69.0588C120.683 69.0588 116.403 67.9629 112.71 65.7717C109.035 63.5624 106.163 60.4304 104.092 56.3752C102.021 52.3026 100.986 47.4707 100.986 41.8801C100.986 37.6006 101.607 33.7781 102.849 30.4133C104.092 27.0489 105.825 24.1928 108.051 21.8459C110.278 19.4826 112.875 17.6876 115.843 16.4622C118.81 15.2203 122.029 14.5989 125.497 14.5989ZM191.687 28.0588C194.016 28.0588 195.931 28.4548 197.433 29.2483C198.934 30.0255 200.126 30.9663 201.006 32.0706C201.885 33.1573 202.567 34.1841 203.05 35.1506H203.439V28.5764H212.834V68.3333H203.619V62.0696H203.05C202.567 63.0362 201.868 64.0628 200.953 65.1497C200.039 66.2192 198.831 67.1339 197.329 67.8928C195.829 68.6527 193.939 69.0325 191.661 69.0325C188.538 69.0325 185.743 68.2305 183.275 66.6252C180.807 65.0208 178.857 62.691 177.425 59.637C175.993 56.5821 175.277 52.872 175.277 48.5071C175.277 44.0891 176.001 40.3612 177.45 37.3245C178.917 34.2704 180.894 31.9659 183.378 30.4133C185.863 28.8426 188.633 28.0588 191.687 28.0588ZM258.017 68.3333H248.802V62.0696H248.233C247.749 63.0361 247.05 64.0629 246.136 65.1497C245.222 66.2193 244.013 67.1339 242.512 67.8928C241.01 68.6527 239.122 69.0325 236.844 69.0325C233.72 69.0324 230.924 68.2306 228.457 66.6252C225.99 65.0208 224.039 62.691 222.608 59.637C221.175 56.5821 220.459 52.872 220.459 48.5071C220.459 44.0892 221.183 40.3612 222.633 37.3245C224.1 34.2705 226.075 31.9659 228.561 30.4133C231.045 28.8426 233.815 28.0589 236.869 28.0588C239.199 28.0588 241.115 28.4547 242.616 29.2483C244.117 30.0254 245.308 30.9664 246.188 32.0706C247.068 33.1573 247.749 34.1841 248.233 35.1506H248.621V15.3235H258.017V68.3333ZM300.328 28.0588C302.658 28.0588 304.573 28.4549 306.074 29.2483C307.575 30.0255 308.767 30.9663 309.647 32.0706C310.527 33.1573 311.208 34.1841 311.692 35.1506H312.08V28.5764H321.476V68.3333H312.261V62.0696H311.692C311.208 63.0361 310.509 64.0629 309.595 65.1497C308.681 66.2193 307.472 67.1339 305.971 67.8928C304.469 68.6527 302.581 69.0325 300.303 69.0325C297.179 69.0325 294.383 68.2306 291.916 66.6252C289.449 65.0208 287.498 62.691 286.067 59.637C284.634 56.5821 283.918 52.872 283.918 48.5071C283.918 44.0891 284.642 40.3612 286.092 37.3245C287.559 34.2704 289.534 31.9659 292.02 30.4133C294.504 28.8426 297.274 28.0589 300.328 28.0588ZM166.079 56.9446C166.079 58.4287 166.303 59.4904 166.752 60.1282C167.2 60.7668 167.994 61.069 169.133 61.0344C169.754 61.0171 170.22 60.9828 170.53 60.9309C170.858 60.8617 171.153 60.7931 171.411 60.7239L172.964 67.8157C172.412 67.9878 171.722 68.1521 170.894 68.3079C170.083 68.4628 169.081 68.5574 167.891 68.592C164.094 68.6958 161.282 67.9021 159.452 66.2112C157.624 64.5202 156.709 61.9402 156.709 58.4719V15.3235H166.079V56.9446ZM276.643 68.3333H267.273V28.5764H276.643V68.3333ZM194.276 35.7454C192.188 35.7454 190.445 36.2893 189.047 37.3762C187.649 38.4632 186.596 39.965 185.889 41.8801C185.181 43.7952 184.828 45.9873 184.828 48.4543C184.828 50.9389 185.181 53.157 185.889 55.1067C186.613 57.0391 187.675 58.5662 189.072 59.6887C190.487 60.793 192.222 61.345 194.276 61.345C196.26 61.3449 197.95 60.8099 199.348 59.7395C200.745 58.6525 201.807 57.1427 202.532 55.2102C203.257 53.2778 203.619 51.0254 203.619 48.4543C203.619 45.8835 203.257 43.6489 202.532 41.7512C201.824 39.8534 200.772 38.3768 199.374 37.3245C197.994 36.2724 196.294 35.7454 194.276 35.7454ZM239.458 35.7454C237.37 35.7454 235.626 36.2893 234.229 37.3762C232.831 38.4632 231.779 39.9651 231.071 41.8801C230.364 43.7952 230.011 45.9872 230.011 48.4543C230.011 50.9389 230.364 53.1569 231.071 55.1067C231.797 57.0391 232.858 58.5662 234.256 59.6887C235.671 60.7928 237.405 61.345 239.458 61.345C241.443 61.3449 243.134 60.81 244.531 59.7395C245.929 58.6526 246.99 57.1425 247.714 55.2102C248.439 53.2778 248.802 51.0254 248.802 48.4543C248.802 45.8835 248.439 43.6489 247.714 41.7512C247.007 39.8534 245.955 38.3768 244.557 37.3245C243.177 36.2722 241.477 35.7454 239.458 35.7454ZM302.917 35.7454C300.829 35.7454 299.085 36.2893 297.688 37.3762C296.29 38.4632 295.238 39.9651 294.53 41.8801C293.823 43.7952 293.47 45.9872 293.47 48.4543C293.47 50.9389 293.823 53.1569 294.53 55.1067C295.256 57.039 296.317 58.5663 297.714 59.6887C299.129 60.793 300.864 61.345 302.917 61.345C304.901 61.3449 306.593 60.81 307.99 59.7395C309.388 58.6526 310.449 57.1425 311.173 55.2102C311.898 53.2778 312.261 51.0254 312.261 48.4543C312.261 45.8835 311.898 43.6489 311.173 41.7512C310.466 39.8534 309.414 38.3768 308.016 37.3245C306.636 36.2722 304.936 35.7454 302.917 35.7454ZM271.983 12.761C273.484 12.761 274.762 13.2616 275.815 14.2629C276.884 15.2459 277.418 16.4449 277.418 17.8596C277.418 19.258 276.884 20.457 275.815 21.4573C274.762 22.4413 273.484 22.9338 271.983 22.9338C270.499 22.9338 269.222 22.4412 268.153 21.4573C267.083 20.4569 266.548 19.2581 266.548 17.8596C266.548 16.4448 267.083 15.246 268.153 14.2629C269.222 13.2617 270.499 12.7611 271.983 12.761Z" fill="white"/>
+          <path d="M42.8783 53.1389C48.1056 53.139 53.1197 55.2166 56.8177 58.9143L71.1429 75.5637H62.7972C60.6349 75.5636 58.5758 74.6324 57.1468 73.0061L45.2816 59.4934V82.0002H37.3314V59.9797L25.8949 73.0032C24.4689 74.6263 22.41 75.5598 20.2445 75.5598H11.8929L26.2279 58.9104C29.9259 55.2129 34.9401 53.135 40.1673 53.135H42.8783V53.1389ZM23.6126 25.7092C27.3105 29.407 29.388 34.4208 29.388 39.6477V42.3586C29.388 47.5855 27.3105 52.5994 23.6126 56.2971L6.96127 70.6213V62.2766L6.95834 62.2737C6.95834 60.1115 7.89247 58.0523 9.51889 56.6233L23.0326 44.759H0.52475V36.8088H22.5472L9.52182 25.3733C7.89561 23.9475 6.96136 21.889 6.96127 19.7239V11.3723L23.6126 25.7092ZM76.0843 19.717C76.0843 21.8793 75.1532 23.9385 73.5267 25.3674L60.013 37.2317H82.5247V45.1819H60.5023L73.5267 56.6165C75.1501 58.0423 76.0843 60.1015 76.0843 62.2668V70.6184L59.4339 56.2844C55.7359 52.5866 53.6576 47.573 53.6576 42.3459V39.635C53.6576 34.408 55.7359 29.3943 59.4339 25.6965L76.0843 11.3723V19.717ZM45.7083 22.0139L57.1439 8.99048C58.5698 7.36731 60.6288 6.43385 62.7943 6.43384H71.1458L56.8119 23.0833C53.1138 26.781 48.0989 28.8586 42.8714 28.8586H40.1605L40.1576 28.8616C34.9303 28.8615 29.9161 26.7839 26.2181 23.0862L11.8929 6.43677H20.2386C22.401 6.43682 24.46 7.37096 25.889 8.99731L37.7572 22.5061V0.000244141H45.7083V22.0139Z" fill="white"/>
         </svg>
       </a>
       <div class="navbar-links">
-        <a href="#">Product</a>
-        <a href="#">Solutions</a>
+        <button data-menu="product">Product</button>
+        <button data-menu="solutions">Solutions</button>
         <a href="#">Pricing</a>
-        <a href="#">Developers</a>
-        <a href="#">Resources</a>
-        <a href="#">Company</a>
+        <button data-menu="developers">Developers</button>
+        <button data-menu="company">Company</button>
       </div>
       <div class="navbar-actions">
         <a href="#" class="btn btn-ghost btn-sm">
@@ -1777,10 +2269,255 @@
         </a>
       </div>
     </div>
+
+    <!-- Mega Menu -->
+    <div class="mega-menu" id="megaMenu">
+      <!-- Product panel -->
+      <div class="mega-menu-panel" data-panel="product">
+        <div class="mega-menu-bridge"></div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Platform</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">⚡</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Real-time STT</span>
+              <span class="mega-menu-item-desc">Sub-300ms streaming transcription</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📁</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Batch STT</span>
+              <span class="mega-menu-item-desc">Process audio files at scale</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🌍</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Translation</span>
+              <span class="mega-menu-item-desc">Any-to-any language translation</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Models</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">✨</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Solaria</span>
+              <span class="mega-menu-item-desc">Our latest, most accurate model</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📊</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Benchmarks</span>
+              <span class="mega-menu-item-desc">Compare accuracy & latency</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Features</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">👤</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Speaker diarization</span>
+              <span class="mega-menu-item-desc">Identify who said what</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🔍</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Entity recognition</span>
+              <span class="mega-menu-item-desc">Extract names, dates, amounts</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-featured">
+          <span class="mega-menu-featured-title">Featured</span>
+          <a href="#" class="mega-menu-featured-card">
+            <span class="mega-menu-featured-card-title">What's new in Solaria</span>
+            <span class="mega-menu-featured-card-desc">Our latest model delivers 39% better accuracy on European languages.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Solutions panel -->
+      <div class="mega-menu-panel" data-panel="solutions">
+        <div class="mega-menu-bridge"></div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Use cases</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🤖</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Voice agents</span>
+              <span class="mega-menu-item-desc">Power conversational AI</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🎧</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Customer experience</span>
+              <span class="mega-menu-item-desc">Analyze support interactions</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">💼</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Sales enablement</span>
+              <span class="mega-menu-item-desc">Capture every sales insight</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">&nbsp;</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📝</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Meeting assistants</span>
+              <span class="mega-menu-item-desc">Transcribe and summarize meetings</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🎬</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Media & subtitling</span>
+              <span class="mega-menu-item-desc">Automated captions at scale</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col"></div>
+        <div class="mega-menu-featured">
+          <span class="mega-menu-featured-title">Featured</span>
+          <a href="#" class="mega-menu-featured-card">
+            <span class="mega-menu-featured-card-title">Voice agents guide</span>
+            <span class="mega-menu-featured-card-desc">Learn how to build production-ready voice agents with Gladia.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Developers panel -->
+      <div class="mega-menu-panel" data-panel="developers">
+        <div class="mega-menu-bridge"></div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Resources</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📖</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Documentation</span>
+              <span class="mega-menu-item-desc">API references and guides</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🛝</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Playground</span>
+              <span class="mega-menu-item-desc">Try the API in your browser</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📦</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">SDKs</span>
+              <span class="mega-menu-item-desc">Python, Node, and more</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Community</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">💬</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Discord</span>
+              <span class="mega-menu-item-desc">Join the developer community</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🔔</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Status</span>
+              <span class="mega-menu-item-desc">API uptime and incidents</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col"></div>
+        <div class="mega-menu-featured">
+          <span class="mega-menu-featured-title">Featured</span>
+          <a href="#" class="mega-menu-featured-card">
+            <span class="mega-menu-featured-card-title">Quick start guide</span>
+            <span class="mega-menu-featured-card-desc">Go from zero to transcription in under 5 minutes.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Company panel -->
+      <div class="mega-menu-panel" data-panel="company">
+        <div class="mega-menu-bridge"></div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">Company</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🏢</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">About us</span>
+              <span class="mega-menu-item-desc">Our mission and team</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📰</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Blog</span>
+              <span class="mega-menu-item-desc">Insights and updates</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">💼</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Careers</span>
+              <span class="mega-menu-item-desc">Join the team</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col">
+          <span class="mega-menu-col-title">&nbsp;</span>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">📣</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Press</span>
+              <span class="mega-menu-item-desc">Media and press kit</span>
+            </div>
+          </a>
+          <a href="#" class="mega-menu-item">
+            <div class="mega-menu-item-icon">🤝</div>
+            <div class="mega-menu-item-text">
+              <span class="mega-menu-item-title">Partners</span>
+              <span class="mega-menu-item-desc">Integration partners</span>
+            </div>
+          </a>
+        </div>
+        <div class="mega-menu-col"></div>
+        <div class="mega-menu-featured">
+          <span class="mega-menu-featured-title">Featured</span>
+          <a href="#" class="mega-menu-featured-card">
+            <span class="mega-menu-featured-card-title">We're hiring!</span>
+            <span class="mega-menu-featured-card-desc">Join us in building the future of speech AI.</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <!-- ==================== HERO ==================== -->
   <section class="hero">
+    <!-- Ambient glow background -->
+    <div class="hero-bg">
+      <div class="hero-bg__n hero-bg__n1"></div>
+      <div class="hero-bg__n hero-bg__n2"></div>
+      <div class="hero-bg__n hero-bg__n3"></div>
+      <div class="hero-bg__n hero-bg__n4"></div>
+      <div class="hero-bg__n hero-bg__n5"></div>
+      <svg id="heroStars" width="100%" height="100%"></svg>
+    </div>
+
     <div class="hero-content">
       <a href="#" class="announcement-banner">
         <span class="badge-new">NEW</span>
@@ -1789,14 +2526,17 @@
       </a>
 
       <h1>
-        The speech-to-text<br>backbone for<br>
-        <span class="hero-rotating-wrapper">
-          <span class="hero-rotating-words">
-            <span>voice agents</span>
-            <span>customer support</span>
-            <span>meeting assistance</span>
-            <span>note taking</span>
-            <span>media workflows</span>
+        <span class="hero-line">The speech-to-text</span>
+        <span class="hero-line">backbone for</span>
+        <span class="hero-line">
+          <span class="hero-rotating-wrapper">
+            <span class="hero-rotating-words">
+              <span>voice agents</span>
+              <span>customer support</span>
+              <span>meeting assistance</span>
+              <span>note taking</span>
+              <span>media workflows</span>
+            </span>
           </span>
         </span>
       </h1>
@@ -1806,13 +2546,13 @@
       </p>
 
       <div class="hero-actions">
-        <a href="#" class="btn btn-primary btn-lg">
+        <a href="#" class="btn btn-primary btn-md">
           <span class="btn-text-wrapper">
             <span class="btn-text">Request a demo</span>
             <span class="btn-text-clone">Request a demo</span>
           </span>
         </a>
-        <a href="#" class="btn btn-secondary btn-lg">
+        <a href="#" class="btn btn-secondary btn-md">
           <span class="btn-text-wrapper">
             <span class="btn-text">Sign up for free</span>
             <span class="btn-text-clone">Sign up for free</span>
@@ -1827,42 +2567,42 @@
     <p class="logo-strip-label">Trusted by 300,000+ developers worldwide</p>
     <div class="logo-strip-track">
       <div class="logo-strip-set">
-        <span class="logo-item">Method</span>
-        <span class="logo-item">Recall</span>
-        <span class="logo-item">VEED</span>
-        <span class="logo-item">Adversus</span>
-        <span class="logo-item">Alan</span>
-        <span class="logo-item">Attention</span>
-        <span class="logo-item">Jellysmack</span>
-        <span class="logo-item">Mojo</span>
-        <span class="logo-item">Bambuser</span>
-        <span class="logo-item">Citibank</span>
-        <span class="logo-item">Samsung</span>
-        <span class="logo-item">Oracle</span>
-        <span class="logo-item">Microsoft</span>
-        <span class="logo-item">SoftBank</span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Klarna-logo.svg" alt="Klarna"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Aircall-logo.svg" alt="Aircall"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Heygen-logo.svg" alt="HeyGen"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Veed-logo.svg" alt="VEED"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Recall-logo.svg" alt="Recall"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Attention-logo.svg" alt="Attention"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Livestorm-logo.svg" alt="Livestorm"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Method-logo.svg" alt="Method"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Sana-logo.svg" alt="Sana"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Mojo-logo.svg" alt="Mojo"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/adversus-logo.svg" alt="Adversus"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/claap-logo.svg" alt="Claap"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Attio-logo.svg" alt="Attio"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Carv-logo.svg" alt="Carv"></span>
       </div>
       <div class="logo-strip-set">
-        <span class="logo-item">Method</span>
-        <span class="logo-item">Recall</span>
-        <span class="logo-item">VEED</span>
-        <span class="logo-item">Adversus</span>
-        <span class="logo-item">Alan</span>
-        <span class="logo-item">Attention</span>
-        <span class="logo-item">Jellysmack</span>
-        <span class="logo-item">Mojo</span>
-        <span class="logo-item">Bambuser</span>
-        <span class="logo-item">Citibank</span>
-        <span class="logo-item">Samsung</span>
-        <span class="logo-item">Oracle</span>
-        <span class="logo-item">Microsoft</span>
-        <span class="logo-item">SoftBank</span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Klarna-logo.svg" alt="Klarna"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Aircall-logo.svg" alt="Aircall"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Heygen-logo.svg" alt="HeyGen"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Veed-logo.svg" alt="VEED"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Recall-logo.svg" alt="Recall"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Attention-logo.svg" alt="Attention"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Livestorm-logo.svg" alt="Livestorm"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Method-logo.svg" alt="Method"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Sana-logo.svg" alt="Sana"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Mojo-logo.svg" alt="Mojo"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/adversus-logo.svg" alt="Adversus"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/claap-logo.svg" alt="Claap"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Attio-logo.svg" alt="Attio"></span>
+        <span class="logo-item"><img src="Logos (partners)/Clients/SVG/White/Carv-logo.svg" alt="Carv"></span>
       </div>
     </div>
   </div>
 
   <!-- ==================== STATEMENT ==================== -->
-  <div class="statement-section">
+  <div class="statement-section reveal">
     <div class="container">
       <div class="statement-text">
         <p class="statement-title">Most voice platform failures start with faulty STT.</p>
@@ -1872,7 +2612,7 @@
   </div>
 
   <!-- ==================== PERFORMANCE SECTION ==================== -->
-  <section class="section" id="performance">
+  <section class="section reveal" id="performance">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -1885,8 +2625,58 @@
             <h2 class="b__hero-title">Performance that<br>won't disappoint</h2>
             <p class="b__hero-subtitle">Async and real-time STT models with top precision on key entities.</p>
           </div>
-          <div class="b__hero-visual"></div>
-          <a href="#" class="b__cta">Check our benchmarks</a>
+          <div class="b__hero-visual">
+            <!-- Hardcoded performance animation -->
+            <div class="perf-container" id="perfAnimation">
+              <div class="perf-header">
+                <div class="perf-status">
+                  <div class="perf-status-dot" id="perfDot"></div>
+                  <span class="perf-status-text" id="perfStatusText">Ready</span>
+                </div>
+                <div class="perf-latency" id="perfLatency">
+                  <span class="perf-latency-dot"></span>
+                  <span id="perfLatencyValue">287ms latency</span>
+                </div>
+              </div>
+              <div class="perf-waveform" id="perfWaveform"></div>
+              <div class="perf-transcript" id="perfTranscript">
+                <div class="perf-line" data-line="0">
+                  <div class="perf-speaker"><span class="perf-speaker-dot" style="background:#1A9EFF"></span><span class="perf-speaker-name" style="color:#1A9EFF">Speaker 1</span></div>
+                  <div class="perf-line-text" id="perfText0"></div>
+                </div>
+                <div class="perf-line" data-line="1">
+                  <div class="perf-speaker"><span class="perf-speaker-dot" style="background:#4ADE80"></span><span class="perf-speaker-name" style="color:#4ADE80">Speaker 2</span></div>
+                  <div class="perf-line-text" id="perfText1"></div>
+                </div>
+                <div class="perf-line" data-line="2">
+                  <div class="perf-speaker"><span class="perf-speaker-dot" style="background:#1A9EFF"></span><span class="perf-speaker-name" style="color:#1A9EFF">Speaker 1</span></div>
+                  <div class="perf-line-text" id="perfText2"></div>
+                </div>
+                <div class="perf-line" data-line="3">
+                  <div class="perf-speaker"><span class="perf-speaker-dot" style="background:#4ADE80"></span><span class="perf-speaker-name" style="color:#4ADE80">Speaker 2</span></div>
+                  <div class="perf-line-text" id="perfText3"></div>
+                </div>
+                <div class="perf-line" data-line="4">
+                  <div class="perf-speaker"><span class="perf-speaker-dot" style="background:#1A9EFF"></span><span class="perf-speaker-name" style="color:#1A9EFF">Speaker 1</span></div>
+                  <div class="perf-line-text" id="perfText4"></div>
+                </div>
+              </div>
+              <div class="perf-entities" id="perfEntities">
+                <span class="perf-entities-label">Entities</span>
+                <span class="perf-entity-tag" data-entity="0">23% increase</span>
+                <span class="perf-entity-tag" data-entity="1">EMEA</span>
+                <span class="perf-entity-tag" data-entity="2">North America</span>
+                <span class="perf-entity-tag" data-entity="3">APAC</span>
+                <span class="perf-entity-tag" data-entity="4">142%</span>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="b__cta">
+            <span class="btn-text-wrapper">
+              <span class="btn-text">Check our benchmarks</span>
+              <span class="btn-text-clone">Check our benchmarks</span>
+            </span>
+          </a>
         </div>
 
         <div class="b__card b__features">
@@ -1924,7 +2714,7 @@
   </section>
 
   <!-- ==================== SCALING SECTION ==================== -->
-  <section class="section" id="scaling">
+  <section class="section reveal" id="scaling">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -1938,7 +2728,12 @@
             <p class="b__hero-subtitle">Instant scalability. No limits, no fine print.</p>
           </div>
           <div class="b__hero-visual"></div>
-          <a href="#" class="b__cta">Talk to sales</a>
+          <a href="#" class="b__cta">
+            <span class="btn-text-wrapper">
+              <span class="btn-text">Talk to sales</span>
+              <span class="btn-text-clone">Talk to sales</span>
+            </span>
+          </a>
         </div>
 
         <div class="b__card b__features">
@@ -1969,7 +2764,7 @@
   </section>
 
   <!-- ==================== INTEGRATION SECTION ==================== -->
-  <section class="section" id="integration">
+  <section class="section reveal" id="integration">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -1983,7 +2778,12 @@
             <p class="b__hero-subtitle">Plug. Build. Ship.</p>
           </div>
           <div class="b__hero-visual"></div>
-          <a href="#" class="b__cta">Documentation</a>
+          <a href="#" class="b__cta">
+            <span class="btn-text-wrapper">
+              <span class="btn-text">Documentation</span>
+              <span class="btn-text-clone">Documentation</span>
+            </span>
+          </a>
         </div>
 
         <div class="b__card b__features">
@@ -2017,15 +2817,9 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-
-
-  <!-- ==================== COMPLIANCE ==================== -->
-  <section class="compliance-section">
-    <div class="container">
-      <div class="compliance-wrapper">
+      <!-- Compliance (inside integration section) -->
+      <div class="compliance-wrapper" style="margin-top: var(--space-4);">
         <div class="compliance-content">
           <h2 class="compliance-title">Compliance & security</h2>
           <p class="compliance-desc">At Gladia, data privacy is non-negotiable. We never use your audio to retrain our models, and we don't believe in charging extra for peace of mind.</p>
@@ -2058,9 +2852,8 @@
     </div>
   </section>
 
-
   <!-- ==================== LANGUAGE SUPPORT ==================== -->
-  <section class="section" id="languages">
+  <section class="section reveal" id="languages">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -2074,7 +2867,12 @@
             <p class="b__hero-subtitle">Expand globally with a single API. 100+ languages included.</p>
           </div>
           <div class="b__hero-visual"></div>
-          <a href="#" class="b__cta">Talk to sales</a>
+          <a href="#" class="b__cta">
+            <span class="btn-text-wrapper">
+              <span class="btn-text">Talk to sales</span>
+              <span class="btn-text-clone">Talk to sales</span>
+            </span>
+          </a>
         </div>
 
         <div class="b__card b__features">
@@ -2106,7 +2904,7 @@
 
 
   <!-- ==================== BENCHMARKS ==================== -->
-  <section class="section" id="benchmarks">
+  <section class="section reveal" id="benchmarks">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -2117,7 +2915,12 @@
           <div class="b__hero-content">
             <h2 class="b__hero-title">How we compare to alternatives</h2>
             <p class="b__hero-subtitle">Gladia is up to 39% more accurate than leading competitors in major European languages, including English.</p>
-            <a href="#" class="b__cta">Check our benchmarks</a>
+            <a href="#" class="b__cta">
+              <span class="btn-text-wrapper">
+                <span class="btn-text">Check our benchmarks</span>
+                <span class="btn-text-clone">Check our benchmarks</span>
+              </span>
+            </a>
           </div>
           <div class="b__hero-visual"></div>
         </div>
@@ -2126,7 +2929,7 @@
   </section>
 
   <!-- ==================== TESTIMONIALS ==================== -->
-  <section class="testimonials-section" id="testimonials">
+  <section class="testimonials-section reveal" id="testimonials">
     <div class="container">
       <div class="tag-label" style="margin-bottom: var(--space-4);">
         <span class="tag-indicator"></span>
@@ -2244,13 +3047,13 @@
         <h2 class="cta-title">Ready to get started?</h2>
         <p class="cta-subtitle">Try Gladia for free or request a demo to see how our API can power your voice experience.</p>
         <div class="cta-actions">
-          <a href="#" class="btn btn-primary btn-lg">
+          <a href="#" class="btn btn-primary btn-md">
             <span class="btn-text-wrapper">
               <span class="btn-text">Request a demo</span>
               <span class="btn-text-clone">Request a demo</span>
             </span>
           </a>
-          <a href="#" class="btn btn-secondary btn-lg">
+          <a href="#" class="btn btn-secondary btn-md">
             <span class="btn-text-wrapper">
               <span class="btn-text">Sign up for free</span>
               <span class="btn-text-clone">Sign up for free</span>
@@ -2266,8 +3069,9 @@
     <div class="container">
       <div class="footer-top">
         <div class="footer-brand">
-          <svg viewBox="0 0 100 28" fill="none" xmlns="http://www.w3.org/2000/svg" style="height: 28px;">
-            <text x="0" y="22" fill="white" font-family="Inter, sans-serif" font-size="22" font-weight="600" letter-spacing="-0.02em">gladia</text>
+          <svg viewBox="0 0 322 82" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:24px;width:auto;">
+            <path d="M125.497 14.5989C128.431 14.5989 131.174 15.0301 133.728 15.8928C136.299 16.7383 138.594 17.9461 140.613 19.5168C142.632 21.0867 144.289 22.9511 145.583 25.1077C146.894 27.2642 147.748 29.6455 148.146 32.2512H138.362C137.965 30.8536 137.378 29.5935 136.602 28.4719C135.825 27.3506 134.884 26.4014 133.78 25.6252C132.676 24.8317 131.433 24.2364 130.053 23.8391C128.69 23.4246 127.214 23.218 125.626 23.218C122.762 23.2181 120.2 23.9343 117.94 25.3665C115.679 26.7987 113.892 28.904 112.581 31.6819C111.287 34.4426 110.64 37.8078 110.64 41.7766C110.64 45.7798 111.27 49.1706 112.529 51.9485C113.807 54.7264 115.567 56.8416 117.81 58.2903C120.053 59.7225 122.65 60.4387 125.601 60.4387C128.361 60.4387 130.752 59.8958 132.771 58.8088C134.79 57.721 136.343 56.211 137.43 54.2786C138.462 52.4728 139.012 50.4109 139.079 48.092H126.559V40.5862H148.533V68.3333H141.649L140.949 62.1213H140.665C138.801 64.3472 136.653 66.0645 134.22 67.2717C131.787 68.4625 128.896 69.0588 125.549 69.0588C120.683 69.0588 116.403 67.9629 112.71 65.7717C109.035 63.5624 106.163 60.4304 104.092 56.3752C102.021 52.3026 100.986 47.4707 100.986 41.8801C100.986 37.6006 101.607 33.7781 102.849 30.4133C104.092 27.0489 105.825 24.1928 108.051 21.8459C110.278 19.4826 112.875 17.6876 115.843 16.4622C118.81 15.2203 122.029 14.5989 125.497 14.5989ZM191.687 28.0588C194.016 28.0588 195.931 28.4548 197.433 29.2483C198.934 30.0255 200.126 30.9663 201.006 32.0706C201.885 33.1573 202.567 34.1841 203.05 35.1506H203.439V28.5764H212.834V68.3333H203.619V62.0696H203.05C202.567 63.0362 201.868 64.0628 200.953 65.1497C200.039 66.2192 198.831 67.1339 197.329 67.8928C195.829 68.6527 193.939 69.0325 191.661 69.0325C188.538 69.0325 185.743 68.2305 183.275 66.6252C180.807 65.0208 178.857 62.691 177.425 59.637C175.993 56.5821 175.277 52.872 175.277 48.5071C175.277 44.0891 176.001 40.3612 177.45 37.3245C178.917 34.2704 180.894 31.9659 183.378 30.4133C185.863 28.8426 188.633 28.0588 191.687 28.0588ZM258.017 68.3333H248.802V62.0696H248.233C247.749 63.0361 247.05 64.0629 246.136 65.1497C245.222 66.2193 244.013 67.1339 242.512 67.8928C241.01 68.6527 239.122 69.0325 236.844 69.0325C233.72 69.0324 230.924 68.2306 228.457 66.6252C225.99 65.0208 224.039 62.691 222.608 59.637C221.175 56.5821 220.459 52.872 220.459 48.5071C220.459 44.0892 221.183 40.3612 222.633 37.3245C224.1 34.2705 226.075 31.9659 228.561 30.4133C231.045 28.8426 233.815 28.0589 236.869 28.0588C239.199 28.0588 241.115 28.4547 242.616 29.2483C244.117 30.0254 245.308 30.9664 246.188 32.0706C247.068 33.1573 247.749 34.1841 248.233 35.1506H248.621V15.3235H258.017V68.3333ZM300.328 28.0588C302.658 28.0588 304.573 28.4549 306.074 29.2483C307.575 30.0255 308.767 30.9663 309.647 32.0706C310.527 33.1573 311.208 34.1841 311.692 35.1506H312.08V28.5764H321.476V68.3333H312.261V62.0696H311.692C311.208 63.0361 310.509 64.0629 309.595 65.1497C308.681 66.2193 307.472 67.1339 305.971 67.8928C304.469 68.6527 302.581 69.0325 300.303 69.0325C297.179 69.0325 294.383 68.2306 291.916 66.6252C289.449 65.0208 287.498 62.691 286.067 59.637C284.634 56.5821 283.918 52.872 283.918 48.5071C283.918 44.0891 284.642 40.3612 286.092 37.3245C287.559 34.2704 289.534 31.9659 292.02 30.4133C294.504 28.8426 297.274 28.0589 300.328 28.0588ZM166.079 56.9446C166.079 58.4287 166.303 59.4904 166.752 60.1282C167.2 60.7668 167.994 61.069 169.133 61.0344C169.754 61.0171 170.22 60.9828 170.53 60.9309C170.858 60.8617 171.153 60.7931 171.411 60.7239L172.964 67.8157C172.412 67.9878 171.722 68.1521 170.894 68.3079C170.083 68.4628 169.081 68.5574 167.891 68.592C164.094 68.6958 161.282 67.9021 159.452 66.2112C157.624 64.5202 156.709 61.9402 156.709 58.4719V15.3235H166.079V56.9446ZM276.643 68.3333H267.273V28.5764H276.643V68.3333ZM194.276 35.7454C192.188 35.7454 190.445 36.2893 189.047 37.3762C187.649 38.4632 186.596 39.965 185.889 41.8801C185.181 43.7952 184.828 45.9873 184.828 48.4543C184.828 50.9389 185.181 53.157 185.889 55.1067C186.613 57.0391 187.675 58.5662 189.072 59.6887C190.487 60.793 192.222 61.345 194.276 61.345C196.26 61.3449 197.95 60.8099 199.348 59.7395C200.745 58.6525 201.807 57.1427 202.532 55.2102C203.257 53.2778 203.619 51.0254 203.619 48.4543C203.619 45.8835 203.257 43.6489 202.532 41.7512C201.824 39.8534 200.772 38.3768 199.374 37.3245C197.994 36.2724 196.294 35.7454 194.276 35.7454ZM239.458 35.7454C237.37 35.7454 235.626 36.2893 234.229 37.3762C232.831 38.4632 231.779 39.9651 231.071 41.8801C230.364 43.7952 230.011 45.9872 230.011 48.4543C230.011 50.9389 230.364 53.1569 231.071 55.1067C231.797 57.0391 232.858 58.5662 234.256 59.6887C235.671 60.7928 237.405 61.345 239.458 61.345C241.443 61.3449 243.134 60.81 244.531 59.7395C245.929 58.6526 246.99 57.1425 247.714 55.2102C248.439 53.2778 248.802 51.0254 248.802 48.4543C248.802 45.8835 248.439 43.6489 247.714 41.7512C247.007 39.8534 245.955 38.3768 244.557 37.3245C243.177 36.2722 241.477 35.7454 239.458 35.7454ZM302.917 35.7454C300.829 35.7454 299.085 36.2893 297.688 37.3762C296.29 38.4632 295.238 39.9651 294.53 41.8801C293.823 43.7952 293.47 45.9872 293.47 48.4543C293.47 50.9389 293.823 53.1569 294.53 55.1067C295.256 57.039 296.317 58.5663 297.714 59.6887C299.129 60.793 300.864 61.345 302.917 61.345C304.901 61.3449 306.593 60.81 307.99 59.7395C309.388 58.6526 310.449 57.1425 311.173 55.2102C311.898 53.2778 312.261 51.0254 312.261 48.4543C312.261 45.8835 311.898 43.6489 311.173 41.7512C310.466 39.8534 309.414 38.3768 308.016 37.3245C306.636 36.2722 304.936 35.7454 302.917 35.7454ZM271.983 12.761C273.484 12.761 274.762 13.2616 275.815 14.2629C276.884 15.2459 277.418 16.4449 277.418 17.8596C277.418 19.258 276.884 20.457 275.815 21.4573C274.762 22.4413 273.484 22.9338 271.983 22.9338C270.499 22.9338 269.222 22.4412 268.153 21.4573C267.083 20.4569 266.548 19.2581 266.548 17.8596C266.548 16.4448 267.083 15.246 268.153 14.2629C269.222 13.2617 270.499 12.7611 271.983 12.761Z" fill="white"/>
+            <path d="M42.8783 53.1389C48.1056 53.139 53.1197 55.2166 56.8177 58.9143L71.1429 75.5637H62.7972C60.6349 75.5636 58.5758 74.6324 57.1468 73.0061L45.2816 59.4934V82.0002H37.3314V59.9797L25.8949 73.0032C24.4689 74.6263 22.41 75.5598 20.2445 75.5598H11.8929L26.2279 58.9104C29.9259 55.2129 34.9401 53.135 40.1673 53.135H42.8783V53.1389ZM23.6126 25.7092C27.3105 29.407 29.388 34.4208 29.388 39.6477V42.3586C29.388 47.5855 27.3105 52.5994 23.6126 56.2971L6.96127 70.6213V62.2766L6.95834 62.2737C6.95834 60.1115 7.89247 58.0523 9.51889 56.6233L23.0326 44.759H0.52475V36.8088H22.5472L9.52182 25.3733C7.89561 23.9475 6.96136 21.889 6.96127 19.7239V11.3723L23.6126 25.7092ZM76.0843 19.717C76.0843 21.8793 75.1532 23.9385 73.5267 25.3674L60.013 37.2317H82.5247V45.1819H60.5023L73.5267 56.6165C75.1501 58.0423 76.0843 60.1015 76.0843 62.2668V70.6184L59.4339 56.2844C55.7359 52.5866 53.6576 47.573 53.6576 42.3459V39.635C53.6576 34.408 55.7359 29.3943 59.4339 25.6965L76.0843 11.3723V19.717ZM45.7083 22.0139L57.1439 8.99048C58.5698 7.36731 60.6288 6.43385 62.7943 6.43384H71.1458L56.8119 23.0833C53.1138 26.781 48.0989 28.8586 42.8714 28.8586H40.1605L40.1576 28.8616C34.9303 28.8615 29.9161 26.7839 26.2181 23.0862L11.8929 6.43677H20.2386C22.401 6.43682 24.46 7.37096 25.889 8.99731L37.7572 22.5061V0.000244141H45.7083V22.0139Z" fill="white"/>
           </svg>
           <p class="footer-brand-desc">The most reliable state-of-the-art Speech-To-Text API provider. Powering 300,000+ developers worldwide.</p>
         </div>
@@ -2314,6 +3118,265 @@
       </div>
     </div>
   </footer>
+
+  <script>
+  /* =====================================================
+     MEGA MENU
+     ===================================================== */
+  (function() {
+    const mega = document.getElementById('megaMenu');
+    const panels = mega.querySelectorAll('.mega-menu-panel');
+    const buttons = document.querySelectorAll('.navbar-links [data-menu]');
+    let hideTimeout;
+
+    function showPanel(name) {
+      clearTimeout(hideTimeout);
+      panels.forEach(p => p.classList.toggle('is-visible', p.dataset.panel === name));
+      mega.classList.add('is-visible');
+    }
+
+    function startHide() {
+      hideTimeout = setTimeout(() => {
+        mega.classList.remove('is-visible');
+        panels.forEach(p => p.classList.remove('is-visible'));
+      }, 120);
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('mouseenter', () => showPanel(btn.dataset.menu));
+      btn.addEventListener('mouseleave', startHide);
+    });
+
+    mega.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+    mega.addEventListener('mouseleave', startHide);
+  })();
+
+  /* =====================================================
+     HERO AMBIENT GLOW — Nebula drift + twinkling stars
+     ===================================================== */
+  (function() {
+    const nebulae = document.querySelectorAll('.hero-bg__n');
+    const starsSvg = document.getElementById('heroStars');
+    if (!starsSvg) return;
+
+    // Seeded random
+    function sRand(seed) {
+      const x = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+      return x - Math.floor(x);
+    }
+
+    // Create stars
+    const NS = 'http://www.w3.org/2000/svg';
+    const STAR_COUNT = 80;
+    const stars = [];
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const c = document.createElementNS(NS, 'circle');
+      const cx = sRand(i) * w;
+      const cy = sRand(i + 500) * h;
+      const r = 0.5 + sRand(i + 1000) * 1.5;
+      c.setAttribute('cx', cx);
+      c.setAttribute('cy', cy);
+      c.setAttribute('r', r);
+      c.setAttribute('fill', '#ffffff');
+      starsSvg.appendChild(c);
+      stars.push({
+        el: c,
+        baseOp: 0.1 + sRand(i + 4000) * 0.4,
+        speed: 0.02 + sRand(i + 2000) * 0.04,
+        phase: sRand(i + 3000) * Math.PI * 2
+      });
+    }
+
+    let f = 0;
+    let raf;
+    function tick() {
+      f++;
+      // Nebula drift
+      const d1x = Math.sin(f * 0.004) * 25;
+      const d1y = Math.cos(f * 0.003) * 8;
+      const d2x = Math.sin(f * 0.005 + 1.8) * 20;
+      const d2y = Math.cos(f * 0.004 + 2.5) * 6;
+      const d3x = Math.sin(f * 0.006 + 3.2) * 15;
+      const d3y = Math.cos(f * 0.005 + 1.2) * 5;
+
+      if (nebulae[0]) nebulae[0].style.transform = `translate(${d1x}px, ${d1y}px)`;
+      if (nebulae[1]) nebulae[1].style.transform = `translate(${d2x * 0.7}px, ${d2y}px)`;
+      if (nebulae[2]) nebulae[2].style.transform = `translate(${d2x}px, ${d1y * 0.8}px)`;
+      if (nebulae[3]) nebulae[3].style.transform = `translate(${d3x}px, ${d3y}px)`;
+      if (nebulae[4]) nebulae[4].style.transform = `translate(${d1x * -0.5}px, ${d2y * -0.6}px)`;
+
+      // Star twinkling
+      for (const s of stars) {
+        const op = s.baseOp * (0.5 + 0.5 * Math.sin(f * s.speed + s.phase));
+        s.el.setAttribute('opacity', op.toFixed(3));
+      }
+
+      raf = requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  /* =====================================================
+     PERFORMANCE ANIMATION — Hardcoded
+     ===================================================== */
+  (function() {
+    const container = document.getElementById('perfAnimation');
+    if (!container) return;
+
+    const dot = document.getElementById('perfDot');
+    const statusText = document.getElementById('perfStatusText');
+    const latencyEl = document.getElementById('perfLatency');
+    const latencyValue = document.getElementById('perfLatencyValue');
+    const waveformEl = document.getElementById('perfWaveform');
+
+    // Build waveform bars
+    const BAR_COUNT = 60;
+    const bars = [];
+    for (let i = 0; i < BAR_COUNT; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'perf-bar';
+      bar.style.height = '4px';
+      waveformEl.appendChild(bar);
+      bars.push(bar);
+    }
+
+    // Transcript data
+    const lines = [
+      'The quarterly results show a 23% increase in revenue',
+      "That's great news. Can you break down the regional performance?",
+      'EMEA grew 31%, North America 18%, and APAC 27%',
+      'Impressive. What about customer retention metrics?',
+      'Net retention rate hit 142%, our highest quarter ever'
+    ];
+
+    const entities = [
+      { text: '23% increase', line: 0, delay: 70 },
+      { text: 'EMEA', line: 2, delay: 165 },
+      { text: 'North America', line: 2, delay: 170 },
+      { text: 'APAC', line: 2, delay: 175 },
+      { text: '142%', line: 4, delay: 285 }
+    ];
+
+    const lineStarts = [30, 80, 135, 190, 245];
+    const DURATION = 300;
+    const latencies = ['287ms', '245ms', '312ms', '198ms', '265ms', '301ms', '223ms'];
+
+    let frame = 0;
+    let playing = false;
+    let raf;
+
+    function highlightEntities(text, visibleText, lineIdx, f) {
+      const active = entities.filter(e => e.line === lineIdx && f >= e.delay && visibleText.includes(e.text));
+      if (!active.length) return visibleText;
+
+      let result = visibleText;
+      for (const e of active) {
+        result = result.replace(e.text, `<span class="perf-entity-hl">${e.text}</span>`);
+      }
+      return result;
+    }
+
+    function animate() {
+      if (!playing) return;
+      frame = (frame + 1) % DURATION;
+      const f = frame;
+
+      // Status
+      const active = f > 10 && f < DURATION - 20;
+      dot.classList.toggle('active', active);
+      statusText.textContent = active ? 'Transcribing...' : 'Ready';
+      latencyEl.classList.toggle('active', f > 20);
+
+      // Latency value
+      const lIdx = Math.floor(f / 25) % latencies.length;
+      const val = latencies[lIdx];
+      const isLow = parseInt(val) < 300;
+      latencyValue.textContent = val + ' latency';
+      latencyEl.style.color = isLow ? 'var(--color-green-500)' : 'var(--color-purple-400)';
+
+      // Waveform
+      for (let i = 0; i < bars.length; i++) {
+        if (active) {
+          const wave = Math.abs(Math.sin((f * 0.12) + i * 0.7)) * (20 + Math.sin(i * 1.3 + f * 0.05) * 12);
+          const h = Math.max(4, Math.min(32, wave));
+          bars[i].style.height = h + 'px';
+          bars[i].classList.add('active');
+        } else {
+          bars[i].style.height = (4 + Math.sin(i * 0.8) * 2) + 'px';
+          bars[i].classList.remove('active');
+        }
+      }
+
+      // Transcript lines
+      for (let li = 0; li < lines.length; li++) {
+        const lineEl = document.querySelector(`[data-line="${li}"]`);
+        const textEl = document.getElementById(`perfText${li}`);
+        if (!lineEl || !textEl) continue;
+
+        const elapsed = f - lineStarts[li];
+        if (elapsed < 0) {
+          lineEl.classList.remove('visible');
+          textEl.innerHTML = '';
+          continue;
+        }
+
+        lineEl.classList.add('visible');
+        const words = lines[li].split(' ');
+        const visibleCount = Math.min(Math.floor(elapsed * 0.25), words.length);
+        const visibleText = words.slice(0, visibleCount).join(' ');
+        const isComplete = visibleCount >= words.length;
+
+        let html = highlightEntities(lines[li], visibleText, li, f);
+        if (!isComplete) html += '<span class="perf-cursor" style="opacity:' + (Math.sin(f * 0.2) > 0 ? 1 : 0.3) + '"></span>';
+        textEl.innerHTML = html;
+      }
+
+      // Entity tags
+      for (let ei = 0; ei < entities.length; ei++) {
+        const tag = document.querySelector(`[data-entity="${ei}"]`);
+        if (tag) tag.classList.toggle('visible', f >= entities[ei].delay);
+      }
+
+      raf = requestAnimationFrame(animate);
+    }
+
+    // IntersectionObserver to start/stop
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !playing) {
+          playing = true;
+          container.classList.add('is-playing');
+          animate();
+        } else if (!entry.isIntersecting && playing) {
+          playing = false;
+          cancelAnimationFrame(raf);
+        }
+      });
+    }, { threshold: 0.2 });
+    obs.observe(container);
+  })();
+
+  /* =====================================================
+     SCROLL REVEAL — IntersectionObserver
+     ===================================================== */
+  (function() {
+    const reveals = document.querySelectorAll('.reveal');
+    if (!reveals.length) return;
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    reveals.forEach(el => obs.observe(el));
+  })();
+  </script>
 
 </body>
 </html>
