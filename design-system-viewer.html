@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gladia Design System</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body, #root { height: 100%; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" data-presets="react">
+const { useState, useCallback } = React;
+
+/* ═══════════════════════════════════════════════════════════════
+   GLADIA DESIGN SYSTEM — Interactive Reference & Playground
+   ═══════════════════════════════════════════════════════════════ */
+
+// ─── DATA ────────────────────────────────────────────────────
+
+const COLORS_PRIMITIVE = {
+  Neutral: [
+    { token: "--color-neutral-0", value: "#FFFFFF" },
+    { token: "--color-neutral-50", value: "#FAFAFA" },
+    { token: "--color-neutral-100", value: "#F5F5F5" },
+    { token: "--color-neutral-200", value: "#E5E5E5" },
+    { token: "--color-neutral-300", value: "#D4D4D4" },
+    { token: "--color-neutral-400", value: "#A3A3A3" },
+    { token: "--color-neutral-500", value: "#727272" },
+    { token: "--color-neutral-600", value: "#515151" },
+    { token: "--color-neutral-700", value: "#252525" },
+    { token: "--color-neutral-800", value: "#1C1C1E" },
+    { token: "--color-neutral-900", value: "#0C0C0C" },
+    { token: "--color-neutral-1000", value: "#000000" },
+  ],
+  Purple: [
+    { token: "--color-purple-100", value: "#EDE9FE" },
+    { token: "--color-purple-200", value: "#BEB4FF" },
+    { token: "--color-purple-300", value: "#A87CFF" },
+    { token: "--color-purple-400", value: "#947AFC" },
+    { token: "--color-purple-500", value: "#925BFF" },
+    { token: "--color-purple-600", value: "#7C3AED" },
+    { token: "--color-purple-700", value: "#6D28D9" },
+  ],
+  Blue: [
+    { token: "--color-blue-100", value: "#BAE0FF" },
+    { token: "--color-blue-200", value: "#7EC8FF" },
+    { token: "--color-blue-300", value: "#45B0FF" },
+    { token: "--color-blue-400", value: "#1A9EFF" },
+    { token: "--color-blue-500", value: "#008CFF" },
+    { token: "--color-blue-600", value: "#0070CC" },
+    { token: "--color-blue-700", value: "#005499" },
+  ],
+  Green: [
+    { token: "--color-green-100", value: "#DCFCE7" },
+    { token: "--color-green-500", value: "#22C55E" },
+    { token: "--color-green-600", value: "#16A34A" },
+  ],
+  Red: [
+    { token: "--color-red-100", value: "#FEE2E2" },
+    { token: "--color-red-500", value: "#EF4444" },
+    { token: "--color-red-600", value: "#DC2626" },
+  ],
+  Yellow: [
+    { token: "--color-yellow-100", value: "#FEF9C3" },
+    { token: "--color-yellow-400", value: "#F2CB45" },
+    { token: "--color-yellow-500", value: "#EAB308" },
+  ],
+  Accent: [
+    { token: "--color-orange-500", value: "#FF630F" },
+    { token: "--color-pink-400", value: "#FF5FB0" },
+  ],
+};
+
+const COLORS_SEMANTIC = {
+  Text: [
+    { token: "--text-primary", ref: "--color-neutral-0", value: "#FFFFFF", usage: "Main text on dark" },
+    { token: "--text-secondary", ref: "--color-neutral-400", value: "#A3A3A3", usage: "Supporting text" },
+    { token: "--text-tertiary", ref: "--color-neutral-500", value: "#727272", usage: "Subtle / labels" },
+    { token: "--text-inverse", ref: "--color-neutral-1000", value: "#000000", usage: "Text on light bg" },
+    { token: "--text-brand", ref: "--color-purple-400", value: "#947AFC", usage: "Brand accent text" },
+  ],
+  Background: [
+    { token: "--bg-primary", ref: "--color-neutral-1000", value: "#000000", usage: "Main background" },
+    { token: "--bg-secondary", ref: "--color-neutral-900", value: "#0C0C0C", usage: "Cards / sections" },
+    { token: "--bg-tertiary", ref: "--color-neutral-800", value: "#1C1C1E", usage: "Subtle surfaces" },
+    { token: "--bg-inverse", ref: "--color-neutral-0", value: "#FFFFFF", usage: "Light surfaces" },
+  ],
+  Border: [
+    { token: "--border-primary", ref: "--color-neutral-700", value: "#252525", usage: "Visible borders" },
+    { token: "--border-secondary", ref: "--color-neutral-600", value: "#515151", usage: "Emphasis borders" },
+    { token: "--border-card", ref: "--border-primary", value: "#252525", usage: "Card borders" },
+  ],
+};
+
+const SPACING = [
+  { token: "--space-1", value: "8px", px: 8 },
+  { token: "--space-2", value: "16px", px: 16 },
+  { token: "--space-3", value: "24px", px: 24 },
+  { token: "--space-4", value: "32px", px: 32 },
+  { token: "--space-5", value: "40px", px: 40 },
+  { token: "--space-6", value: "48px", px: 48 },
+];
+
+const RADII = [
+  { token: "--radius-1", value: "8px" },
+  { token: "--radius-2", value: "16px" },
+  { token: "--radius-3", value: "24px" },
+  { token: "--radius-full", value: "9999px" },
+];
+
+// ─── STYLES ──────────────────────────────────────────────────
+
+const S = {
+  app: { display: "flex", height: "100vh", background: "#000" },
+  sidebar: {
+    width: 260, background: "#0C0C0C", borderRight: "1px solid #252525",
+    flexShrink: 0, display: "flex", flexDirection: "column",
+  },
+  logo: {
+    padding: "24px", fontSize: 18, fontWeight: 500,
+    letterSpacing: "-0.02em", borderBottom: "1px solid #252525",
+    display: "flex", alignItems: "center", gap: 10,
+  },
+  navItem: (active) => ({
+    display: "flex", alignItems: "center", gap: 10,
+    padding: "10px 16px", borderRadius: 8, fontSize: 14,
+    color: active ? "#fff" : "#A3A3A3", cursor: "pointer",
+    background: active ? "#1C1C1E" : "transparent",
+    transition: "all 160ms", fontWeight: active ? 500 : 400,
+  }),
+  main: { flex: 1, padding: "32px 40px", overflowY: "auto", maxWidth: 900 },
+  pageTitle: { fontSize: 32, fontWeight: 500, letterSpacing: "-0.02em", marginBottom: 8 },
+  pageDesc: { fontSize: 16, color: "#A3A3A3", marginBottom: 40 },
+  sectionLabel: {
+    fontSize: 12, fontWeight: 500, fontFamily: "'Geist Mono', monospace",
+    textTransform: "uppercase", letterSpacing: "0.16em", color: "#947AFC",
+    marginBottom: 20, display: "flex", alignItems: "center", gap: 12,
+  },
+  code: {
+    fontFamily: "'Geist Mono', monospace", fontSize: 12,
+    background: "#1C1C1E", padding: "2px 8px", borderRadius: 4, color: "#BEB4FF",
+  },
+  tokenCard: {
+    background: "#0C0C0C", border: "1px solid #252525", borderRadius: 16,
+    padding: 16, cursor: "pointer", transition: "all 160ms",
+  },
+};
+
+// ─── BUTTON STYLE ────────────────────────────────────────────
+
+function btnStyle(variant, size) {
+  const sizes = {
+    xs: { height: 28, padding: "4px 12px", fontSize: 12, fontWeight: 450 },
+    sm: { height: 32, padding: "6px 16px", fontSize: 14, fontWeight: 450 },
+    md: { height: 40, padding: "8px 20px", fontSize: 14, fontWeight: 450 },
+    lg: { height: 48, padding: "12px 28px", fontSize: 16, fontWeight: 500 },
+  };
+  const variants = {
+    primary: { background: "#FFFFFF", color: "#000000", border: "none" },
+    secondary: { background: "transparent", color: "#FFFFFF", border: "1px solid #515151" },
+    ghost: { background: "transparent", color: "#A3A3A3", border: "1px solid transparent" },
+  };
+  const s = sizes[size] || sizes.md;
+  const v = variants[variant] || variants.primary;
+  return {
+    ...v, height: s.height, padding: s.padding, fontSize: s.fontSize, fontWeight: s.fontWeight,
+    borderRadius: 9999, cursor: "pointer", display: "inline-flex", alignItems: "center",
+    justifyContent: "center", transition: "all 160ms", fontFamily: "inherit",
+  };
+}
+
+// ─── COMPONENTS ──────────────────────────────────────────────
+
+function SectionLabel({ children }) {
+  return (
+    <div style={S.sectionLabel}>
+      <span style={{ width: 16, height: 8, borderRadius: 9999, background: "#947AFC" }} />
+      {children}
+    </div>
+  );
+}
+
+function SpecTable({ headers, rows }) {
+  return (
+    <div style={{ marginBottom: 48, overflowX: "auto" }}>
+      <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
+        <thead>
+          <tr>
+            {headers.map((h, i) => (
+              <th key={i} style={{
+                textAlign: "left", padding: "12px 16px", borderBottom: "1px solid #252525",
+                color: "#727272", fontWeight: 500, fontSize: 12, textTransform: "uppercase",
+                letterSpacing: "0.08em",
+              }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, i) => (
+            <tr key={i}>
+              {row.map((cell, j) => (
+                <td key={j} style={{
+                  padding: "12px 16px", borderBottom: "1px solid #1C1C1E",
+                  color: j === 0 ? "#fff" : "#A3A3A3",
+                }}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── PAGES ───────────────────────────────────────────────────
+
+function ColorsPage() {
+  return (
+    <>
+      <h1 style={S.pageTitle}>Colors</h1>
+      <p style={S.pageDesc}>Primitive and semantic color tokens for the Gladia design system.</p>
+
+      <SectionLabel>Primitive Colors</SectionLabel>
+      {Object.entries(COLORS_PRIMITIVE).map(([group, colors]) => (
+        <div key={group} style={{ marginBottom: 32 }}>
+          <div style={{ fontSize: 14, fontWeight: 500, color: "#A3A3A3", marginBottom: 12 }}>{group}</div>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {colors.map(c => (
+              <div key={c.token} style={{ ...S.tokenCard, width: 100, padding: 0, overflow: "hidden" }}>
+                <div style={{ height: 56, background: c.value, borderBottom: "1px solid #252525" }} />
+                <div style={{ padding: "8px 10px" }}>
+                  <div style={{ fontSize: 11, color: "#fff", marginBottom: 2 }}>{c.token.replace("--color-", "")}</div>
+                  <div style={{ fontSize: 10, color: "#727272" }}>{c.value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <SectionLabel>Semantic Tokens</SectionLabel>
+      {Object.entries(COLORS_SEMANTIC).map(([group, tokens]) => (
+        <div key={group} style={{ marginBottom: 32 }}>
+          <div style={{ fontSize: 14, fontWeight: 500, color: "#A3A3A3", marginBottom: 12 }}>{group}</div>
+          <SpecTable
+            headers={["Token", "Value", "Usage"]}
+            rows={tokens.map(t => [
+              <span key="t" style={S.code}>{t.token}</span>,
+              <span key="v" style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+                <span style={{ width: 14, height: 14, borderRadius: 4, background: t.value, border: "1px solid rgba(255,255,255,0.12)" }} />
+                {t.value}
+              </span>,
+              t.usage,
+            ])}
+          />
+        </div>
+      ))}
+    </>
+  );
+}
+
+function SpacingPage() {
+  return (
+    <>
+      <h1 style={S.pageTitle}>Spacing & Radius</h1>
+      <p style={S.pageDesc}>Base-8 spacing scale and border radius tokens.</p>
+
+      <SectionLabel>Spacing Scale</SectionLabel>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 48 }}>
+        {SPACING.map(s => (
+          <div key={s.token} style={{
+            display: "flex", alignItems: "center", gap: 16, padding: "8px 16px",
+            background: "#0C0C0C", border: "1px solid #252525", borderRadius: 12,
+          }}>
+            <span style={{ ...S.code, minWidth: 100 }}>{s.token}</span>
+            <span style={{ fontFamily: "'Geist Mono', monospace", fontSize: 12, color: "#515151", minWidth: 50 }}>{s.value}</span>
+            <div style={{ height: 12, width: Math.min(s.px * 3, 200), background: "#947AFC", borderRadius: 4, opacity: 0.6 }} />
+          </div>
+        ))}
+      </div>
+
+      <SectionLabel>Border Radius</SectionLabel>
+      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+        {RADII.map(r => (
+          <div key={r.token} style={{ ...S.tokenCard, padding: 20, textAlign: "center" }}>
+            <div style={{
+              width: 64, height: 64, background: "#947AFC", margin: "0 auto 12px",
+              borderRadius: r.value === "9999px" ? "50%" : r.value,
+            }} />
+            <div style={S.code}>{r.token}</div>
+            <div style={{ fontSize: 12, color: "#515151", marginTop: 4 }}>{r.value}</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function ButtonsPage() {
+  return (
+    <>
+      <h1 style={S.pageTitle}>Buttons</h1>
+      <p style={S.pageDesc}>Button variants and sizes. All use --radius-full (pill shape).</p>
+
+      <SectionLabel>Variants x Sizes</SectionLabel>
+      <SpecTable
+        headers={["Variant", "xs", "sm", "md", "lg"]}
+        rows={[
+          ["primary",
+            <button key="xs" style={btnStyle("primary", "xs")}>Label</button>,
+            <button key="sm" style={btnStyle("primary", "sm")}>Label</button>,
+            <button key="md" style={btnStyle("primary", "md")}>Label</button>,
+            <button key="lg" style={btnStyle("primary", "lg")}>Label</button>],
+          ["secondary",
+            <button key="xs" style={btnStyle("secondary", "xs")}>Label</button>,
+            <button key="sm" style={btnStyle("secondary", "sm")}>Label</button>,
+            <button key="md" style={btnStyle("secondary", "md")}>Label</button>,
+            <button key="lg" style={btnStyle("secondary", "lg")}>Label</button>],
+          ["ghost",
+            <button key="xs" style={btnStyle("ghost", "xs")}>Label</button>,
+            <button key="sm" style={btnStyle("ghost", "sm")}>Label</button>,
+            <button key="md" style={btnStyle("ghost", "md")}>Label</button>,
+            <button key="lg" style={btnStyle("ghost", "lg")}>Label</button>],
+        ]}
+      />
+
+      <SectionLabel>Size Specs</SectionLabel>
+      <SpecTable
+        headers={["Size", "Height", "Padding", "Font Size", "Weight"]}
+        rows={[
+          ["xs", "28px", "4px 12px", "12px", "450 (book)"],
+          ["sm", "32px", "6px 16px", "14px", "450 (book)"],
+          ["md", "40px", "8px 20px", "14px", "450 (book)"],
+          ["lg", "48px", "12px 28px", "16px", "500 (medium)"],
+        ]}
+      />
+    </>
+  );
+}
+
+function CardsPage() {
+  return (
+    <>
+      <h1 style={S.pageTitle}>Cards</h1>
+      <p style={S.pageDesc}>Card shell and variants using --border-card token.</p>
+
+      <SectionLabel>Card Shell</SectionLabel>
+      <SpecTable
+        headers={["Property", "Token", "Value"]}
+        rows={[
+          ["Background", <span key="t" style={S.code}>--bg-secondary</span>, "#0C0C0C"],
+          ["Border", <span key="t" style={S.code}>--border-card</span>, "#252525"],
+          ["Border (hover)", <span key="t" style={S.code}>--border-secondary</span>, "#515151"],
+          ["Border radius", <span key="t" style={S.code}>--radius-3</span>, "24px"],
+        ]}
+      />
+
+      <SectionLabel>Feature Card</SectionLabel>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 48 }}>
+        {[
+          { icon: "⚡", title: "Fast Processing" },
+          { icon: "🎯", title: "High Accuracy" },
+        ].map((card, i) => (
+          <div key={i} style={{
+            background: "#0C0C0C", border: "1px solid #252525", borderRadius: 24,
+            padding: 32, transition: "all 160ms",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "#515151"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "#252525"; }}>
+            <div style={{
+              width: 48, height: 48, background: "#1C1C1E", borderRadius: 16,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 20, marginBottom: 24,
+            }}>{card.icon}</div>
+            <div style={{ fontSize: 16, fontWeight: 500, marginBottom: 8 }}>{card.title}</div>
+            <div style={{ fontSize: 14, color: "#A3A3A3", lineHeight: 1.5 }}>Feature description text that explains the benefit.</div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ─── APP ─────────────────────────────────────────────────────
+
+const PAGES = [
+  { id: "colors", label: "Colors", icon: "◐" },
+  { id: "spacing", label: "Spacing", icon: "⊞" },
+  { id: "buttons", label: "Buttons", icon: "◉" },
+  { id: "cards", label: "Cards", icon: "▢" },
+];
+
+function App() {
+  const [page, setPage] = useState("colors");
+
+  return (
+    <div style={S.app}>
+      <aside style={S.sidebar}>
+        <div style={S.logo}>
+          <span style={{ width: 10, height: 10, borderRadius: 9999, background: "#947AFC" }} />
+          gladia
+        </div>
+        <nav style={{ padding: 12, display: "flex", flexDirection: "column", gap: 4 }}>
+          {PAGES.map(p => (
+            <div key={p.id} style={S.navItem(page === p.id)} onClick={() => setPage(p.id)}>
+              <span style={{ color: "#947AFC", fontFamily: "'Geist Mono', monospace", fontSize: 12 }}>{p.icon}</span>
+              {p.label}
+            </div>
+          ))}
+        </nav>
+      </aside>
+      <main style={S.main}>
+        {page === "colors" && <ColorsPage />}
+        {page === "spacing" && <SpacingPage />}
+        {page === "buttons" && <ButtonsPage />}
+        {page === "cards" && <CardsPage />}
+      </main>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<App />);
+  </script>
+</body>
+</html>
