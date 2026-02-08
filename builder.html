@@ -158,6 +158,21 @@
     .b--animated .b__cell:nth-child(4){opacity:0;animation:fadeInUp 0.6s var(--easing-out) 0.6s forwards}
 
 
+    /* Hero */
+    .hero-section{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:var(--space-20) var(--space-3) var(--space-15);overflow:hidden;text-align:center}
+    .hero-section-bg{position:absolute;inset:0;overflow:hidden;z-index:0}
+    .hero-section-bg-blob{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.35;animation:heroFloat 12s ease-in-out infinite alternate}
+    .hero-section-bg-blob:nth-child(1){width:500px;height:500px;background:var(--color-purple-500);top:-10%;left:20%}
+    .hero-section-bg-blob:nth-child(2){width:400px;height:400px;background:var(--color-blue-500);top:30%;right:10%;animation-delay:-4s}
+    .hero-section-bg-blob:nth-child(3){width:350px;height:350px;background:var(--color-purple-300);bottom:0;left:40%;animation-delay:-8s}
+    @keyframes heroFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.1)}}
+    .hero-section-content{position:relative;z-index:2;max-width:860px;animation:fadeInUp 0.8s var(--easing-out) forwards}
+    .hero-section h1{font-size:var(--font-size-80);font-weight:var(--font-weight-regular);line-height:var(--line-height-tight);letter-spacing:var(--letter-spacing-tighter);margin-bottom:var(--space-3)}
+    .hero-section-subtitle{font-size:var(--font-size-18);color:var(--text-secondary);line-height:var(--line-height-relaxed);max-width:640px;margin:0 auto var(--space-5)}
+    .hero-section-actions{display:flex;gap:var(--space-2);justify-content:center;flex-wrap:wrap}
+    .hero-section-badge{display:inline-flex;align-items:center;gap:var(--space-1);padding:4px 12px;border:1px solid var(--border-transparent);border-radius:var(--radius-full);font-size:var(--font-size-12);color:var(--text-secondary);margin-bottom:var(--space-4);backdrop-filter:blur(8px);background:var(--bg-glass-light)}
+    .hero-section-badge-new{font-size:var(--font-size-10);font-weight:var(--font-weight-semibold);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:var(--letter-spacing-wider);color:var(--color-purple-400);background:rgba(148,122,252,0.15);padding:2px 6px;border-radius:var(--radius-full)}
+
     /* Text + Media */
     .text-media{padding:var(--space-10) 0}
     .text-media-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);align-items:center}
@@ -324,6 +339,45 @@
     .builder-empty-icon{width:48px;height:48px;border-radius:var(--radius-full);background:var(--bg-tertiary);display:flex;align-items:center;justify-content:center}
     .builder-empty-icon svg{width:24px;height:24px;stroke:var(--text-tertiary);fill:none}
     .builder-empty-text{font-size:var(--font-size-14);color:var(--text-tertiary)}
+
+    /* Prototypes Drawer */
+    .proto-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:300;opacity:0;visibility:hidden;transition:opacity var(--duration-3) var(--easing-out),visibility var(--duration-3)}
+    .proto-backdrop.is-open{opacity:1;visibility:visible}
+    .proto-drawer{position:fixed;top:0;left:0;width:360px;height:100vh;background:var(--bg-secondary);border-right:1px solid var(--border-primary);z-index:301;transform:translateX(-100%);transition:transform var(--duration-3) var(--easing-out);display:flex;flex-direction:column;overflow:hidden}
+    .proto-drawer.is-open{transform:translateX(0)}
+    .proto-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3);border-bottom:1px solid var(--border-primary);flex-shrink:0}
+    .proto-drawer-title{font-size:var(--font-size-16);font-weight:var(--font-weight-medium);color:var(--text-primary)}
+    .proto-drawer-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:var(--radius-1);color:var(--text-tertiary);cursor:pointer;font-size:18px;transition:all var(--duration-2) var(--easing-out)}
+    .proto-drawer-close:hover{background:var(--bg-tertiary);color:var(--text-primary)}
+    .proto-drawer-body{flex:1;overflow-y:auto;padding:var(--space-3);display:flex;flex-direction:column;gap:var(--space-2)}
+    .proto-drawer-body::-webkit-scrollbar{width:6px}
+    .proto-drawer-body::-webkit-scrollbar-track{background:transparent}
+    .proto-drawer-body::-webkit-scrollbar-thumb{background:var(--color-neutral-700);border-radius:3px}
+    .proto-new-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:transparent;border:1px dashed var(--border-primary);border-radius:var(--radius-1);color:var(--text-tertiary);font-size:var(--font-size-14);font-weight:var(--font-weight-medium);font-family:var(--font-sans);cursor:pointer;transition:all var(--duration-2) var(--easing-out);flex-shrink:0}
+    .proto-new-btn:hover{border-color:var(--color-purple-400);color:var(--color-purple-400);background:rgba(148,122,252,0.04)}
+    .proto-item{display:flex;flex-direction:column;gap:6px;padding:var(--space-2);background:var(--bg-tertiary);border:2px solid transparent;border-radius:var(--radius-1);transition:all var(--duration-2) var(--easing-out)}
+    .proto-item:hover{background:var(--bg-elevated)}
+    .proto-item.is-active{border-color:var(--color-purple-400);background:rgba(148,122,252,0.08)}
+    .proto-item-top{display:flex;align-items:center;gap:8px}
+    .proto-item-dot{width:8px;height:8px;border-radius:50%;background:var(--color-purple-400);flex-shrink:0;opacity:0}
+    .proto-item.is-active .proto-item-dot{opacity:1}
+    .proto-item-name{flex:1;font-size:var(--font-size-14);font-weight:var(--font-weight-medium);color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .proto-item-name-input{flex:1;font-size:var(--font-size-14);font-weight:var(--font-weight-medium);color:var(--text-primary);background:var(--bg-secondary);border:1px solid var(--color-purple-400);border-radius:4px;padding:2px 6px;font-family:var(--font-sans);outline:none}
+    .proto-item-meta{font-size:var(--font-size-12);color:var(--text-tertiary);padding-left:16px}
+    .proto-item-actions{display:flex;gap:4px;padding-left:16px}
+    .proto-item-btn{height:28px;padding:0 10px;background:var(--bg-secondary);border:1px solid var(--border-primary);border-radius:6px;color:var(--text-secondary);font-size:var(--font-size-12);font-family:var(--font-sans);cursor:pointer;transition:all var(--duration-2) var(--easing-out)}
+    .proto-item-btn:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-secondary)}
+    .proto-item-btn.is-danger:hover{color:var(--color-red-500);border-color:var(--color-red-500)}
+    .proto-empty{text-align:center;padding:var(--space-6) var(--space-3);color:var(--text-tertiary)}
+    .proto-empty-icon{font-size:32px;margin-bottom:var(--space-2);opacity:0.4}
+    .proto-empty-text{font-size:var(--font-size-14)}
+    .proto-save-btn{position:relative;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:var(--bg-tertiary);color:var(--text-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-full);font-size:var(--font-size-12);font-weight:var(--font-weight-medium);font-family:var(--font-sans);cursor:pointer;transition:all var(--duration-2) var(--easing-out)}
+    .proto-save-btn:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-secondary)}
+    .proto-save-btn.is-saved{background:var(--color-green-500);color:white;border-color:var(--color-green-500)}
+    .proto-unsaved-dot{position:absolute;top:-2px;right:-2px;width:8px;height:8px;border-radius:50%;background:var(--color-purple-400);display:none}
+    .proto-unsaved-dot.is-visible{display:block}
+    .proto-toggle-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;background:var(--bg-tertiary);color:var(--text-secondary);border:1px solid var(--border-primary);border-radius:var(--radius-full);font-size:var(--font-size-12);font-weight:var(--font-weight-medium);font-family:var(--font-sans);cursor:pointer;transition:all var(--duration-2) var(--easing-out)}
+    .proto-toggle-btn:hover{background:var(--bg-elevated);color:var(--text-primary);border-color:var(--border-secondary)}
   </style>
 </head>
 <body>
@@ -336,6 +390,15 @@
       <span class="builder-topbar-badge">v2</span>
     </div>
     <div class="builder-topbar-right">
+      <button class="proto-save-btn" id="protoSaveBtn" onclick="saveCurrentProto()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        <span id="protoSaveBtnText">Save</span>
+        <span class="proto-unsaved-dot" id="protoUnsavedDot"></span>
+      </button>
+      <button class="proto-toggle-btn" onclick="toggleProtoDrawer()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        My Prototypes
+      </button>
       <div class="builder-scope-toggle" id="scopeToggle">
         <button class="builder-scope-btn is-active" data-scope="sections">Sections</button>
         <button class="builder-scope-btn" data-scope="full">Full Page</button>
@@ -375,6 +438,10 @@
           <div class="builder-type-btn-icon">&#10148;</div>
           <div class="builder-type-btn-text"><span class="builder-type-btn-name">CTA</span><span class="builder-type-btn-desc">Call to action with buttons</span></div>
         </button>
+        <button class="builder-type-btn" onclick="addSection('hero')">
+          <div class="builder-type-btn-icon">&#9733;</div>
+          <div class="builder-type-btn-text"><span class="builder-type-btn-name">Hero</span><span class="builder-type-btn-desc">Full-height hero with glow</span></div>
+        </button>
         <button class="builder-type-btn" onclick="addSection('text-media')">
           <div class="builder-type-btn-icon">&#9776;</div>
           <div class="builder-type-btn-text"><span class="builder-type-btn-name">Text + Media</span><span class="builder-type-btn-desc">Split layout with text &amp; media</span></div>
@@ -401,6 +468,16 @@
     <div class="builder-page-preview" id="pagePreview"></div>
   </div>
 
+</div>
+
+<!-- Prototypes Drawer -->
+<div class="proto-backdrop" id="protoBackdrop" onclick="toggleProtoDrawer()"></div>
+<div class="proto-drawer" id="protoDrawer">
+  <div class="proto-drawer-header">
+    <span class="proto-drawer-title">My Prototypes</span>
+    <button class="proto-drawer-close" onclick="toggleProtoDrawer()">&times;</button>
+  </div>
+  <div class="proto-drawer-body" id="protoDrawerBody"></div>
 </div>
 
 <script>
@@ -435,6 +512,7 @@ const SECTION_LABELS = {
   'bento-1x1': 'Bento 1x1',
   'statement': 'Statement',
   'cta': 'CTA',
+  'hero': 'Hero',
   'text-media': 'Text + Media',
   'list-media': 'List + Media',
   'related': 'Related',
@@ -517,6 +595,8 @@ const pageState = {
   sections: [],
   selectedId: null,
   exportScope: 'sections',
+  activeProtoId: null,
+  dirty: false,
 };
 
 // ==========================================================
@@ -555,6 +635,9 @@ function createSection(type) {
   }
   if (type === 'cta') {
     return { id, type, data: { title: 'Ready to get started?', subtitle: 'Start building with the most accurate speech-to-text API.', primaryText: 'Sign up free', secondaryText: 'Request a demo' } };
+  }
+  if (type === 'hero') {
+    return { id, type, data: { badgeEnabled: true, badgeTag: 'NEW', badgeText: 'Benchmarks live now', headline: 'The speech-to-text\nbackbone for\nvoice agents', subtitle: 'From async to live streaming, our API empowers your platform with accurate, fully multilingual speech-to-text and actionable speaker insights.', primaryText: 'Sign up free', secondaryText: 'Request a demo', bgGlow: true } };
   }
   if (type === 'text-media') {
     return { id, type, data: { tagLabel: 'LOREM IPSUM', title: 'Suscipit semper placerat orci faucibus ut ornare felis', subtitle: 'Nisl dolor ipsum egestas a sollicitudin nisl sagittis. Auctor tristique platea vitae aliquet auctor urna vulputate nibh. Ornare convallis.', ctaEnabled: false, ctaText: 'CTA Button', inverted: false } };
@@ -688,9 +771,31 @@ function buildRelatedHTML(data) {
   html += '    </div>\n  </div>\n</section>';
   return html;
 }
+function buildHeroHTML(data) {
+  let html = '<section class="hero-section">\n';
+  if (data.bgGlow) {
+    html += '  <div class="hero-section-bg"><div class="hero-section-bg-blob"></div><div class="hero-section-bg-blob"></div><div class="hero-section-bg-blob"></div></div>\n';
+  }
+  html += '  <div class="hero-section-content">\n';
+  if (data.badgeEnabled && (data.badgeTag || data.badgeText)) {
+    html += '    <div class="hero-section-badge">';
+    if (data.badgeTag) html += '<span class="hero-section-badge-new">' + escHTML(data.badgeTag) + '</span>';
+    if (data.badgeText) html += '<span>' + escHTML(data.badgeText) + '</span>';
+    html += '</div>\n';
+  }
+  html += '    <h1>' + escHTML(data.headline).replace(/\n/g, '<br>') + '</h1>\n';
+  html += '    <p class="hero-section-subtitle">' + escHTML(data.subtitle) + '</p>\n';
+  html += '    <div class="hero-section-actions">\n';
+  if (data.primaryText) html += '      <a href="#" class="btn btn-primary btn-md"><span class="btn-text-wrapper"><span class="btn-text">' + escHTML(data.primaryText) + '</span><span class="btn-text-clone">' + escHTML(data.primaryText) + '</span></span></a>\n';
+  if (data.secondaryText) html += '      <a href="#" class="btn btn-secondary btn-md"><span class="btn-text-wrapper"><span class="btn-text">' + escHTML(data.secondaryText) + '</span><span class="btn-text-clone">' + escHTML(data.secondaryText) + '</span></span></a>\n';
+  html += '    </div>\n  </div>\n</section>';
+  return html;
+}
+
 function buildSectionHTML(sec) {
   if (sec.type === 'statement') return buildStatementHTML(sec.data);
   if (sec.type === 'cta') return buildCtaHTML(sec.data);
+  if (sec.type === 'hero') return buildHeroHTML(sec.data);
   if (sec.type === 'text-media') return buildTextMediaHTML(sec.data);
   if (sec.type === 'list-media') return buildListMediaHTML(sec.data);
   if (sec.type === 'related') return buildRelatedHTML(sec.data);
@@ -725,6 +830,7 @@ function renderSectionList() {
 function getSectionLabel(sec) {
   if (sec.type === 'statement') return sec.data.title.substring(0, 40);
   if (sec.type === 'cta') return sec.data.title.substring(0, 40);
+  if (sec.type === 'hero') return sec.data.headline.replace(/\n/g, ' ').substring(0, 40);
   if (sec.type === 'text-media') return sec.data.title.substring(0, 40);
   if (sec.type === 'list-media') return sec.data.heading.substring(0, 40);
   if (sec.type === 'related') return sec.data.heading.substring(0, 40);
@@ -736,6 +842,7 @@ function getSectionLabel(sec) {
 // ==========================================================
 
 function renderPagePreview() {
+  markDirty();
   const el = document.getElementById('pagePreview');
   let html = NAVBAR_HTML;
   html += '<div class="builder-sections-zone">';
@@ -769,6 +876,7 @@ function renderSectionControls() {
 
   if (sec.type === 'statement') { renderStatementControls(el, sec); return; }
   if (sec.type === 'cta') { renderCtaControls(el, sec); return; }
+  if (sec.type === 'hero') { renderHeroControls(el, sec); return; }
   if (sec.type === 'text-media') { renderTextMediaControls(el, sec); return; }
   if (sec.type === 'list-media') { renderListMediaControls(el, sec); return; }
   if (sec.type === 'related') { renderRelatedControls(el, sec); return; }
@@ -947,6 +1055,48 @@ function renderBentoControls(el, sec) {
 }
 
 
+function renderHeroControls(el, sec) {
+  const d = sec.data;
+  el.innerHTML = `
+    <div class="builder-group">
+      <div class="builder-group-title">Editing: Hero</div>
+      <label class="builder-label">Headline</label>
+      <textarea class="builder-textarea" id="heroHeadline" rows="3">${escHTML(d.headline)}</textarea>
+      <label class="builder-label" style="margin-top:8px">Subtitle</label>
+      <textarea class="builder-textarea" id="heroSubtitleCtrl" rows="3">${escHTML(d.subtitle)}</textarea>
+    </div>
+    <div class="builder-divider"></div>
+    <div class="builder-group">
+      <div class="builder-toggle-row" style="padding:0">
+        <span class="builder-group-title" style="margin:0">Announcement Badge</span>
+        <label class="builder-toggle"><input type="checkbox" id="heroBadgeToggle" ${d.badgeEnabled?'checked':''}><span class="builder-toggle-track"></span></label>
+      </div>
+      <input class="builder-input" id="heroBadgeTag" type="text" value="${escAttr(d.badgeTag)}" placeholder="Badge tag (e.g. NEW)">
+      <input class="builder-input" id="heroBadgeText" type="text" value="${escAttr(d.badgeText)}" placeholder="Badge text" style="margin-top:4px">
+    </div>
+    <div class="builder-divider"></div>
+    <div class="builder-group">
+      <div class="builder-group-title">Buttons</div>
+      <label class="builder-label">Primary button</label>
+      <input class="builder-input" id="heroPrimary" type="text" value="${escAttr(d.primaryText)}" placeholder="Primary button text">
+      <label class="builder-label" style="margin-top:8px">Secondary button</label>
+      <input class="builder-input" id="heroSecondary" type="text" value="${escAttr(d.secondaryText)}" placeholder="Secondary button text">
+    </div>
+    <div class="builder-divider"></div>
+    <div class="builder-toggle-row">
+      <span class="builder-toggle-label">Background glow</span>
+      <label class="builder-toggle"><input type="checkbox" id="heroBgGlow" ${d.bgGlow?'checked':''}><span class="builder-toggle-track"></span></label>
+    </div>
+  `;
+  const update = () => { renderPagePreview(); renderSectionList(); };
+  const bind = (id, key) => document.getElementById(id).addEventListener('input', e => { d[key] = e.target.value; update(); });
+  bind('heroHeadline', 'headline'); bind('heroSubtitleCtrl', 'subtitle');
+  bind('heroBadgeTag', 'badgeTag'); bind('heroBadgeText', 'badgeText');
+  bind('heroPrimary', 'primaryText'); bind('heroSecondary', 'secondaryText');
+  document.getElementById('heroBadgeToggle').addEventListener('change', e => { d.badgeEnabled = e.target.checked; renderPagePreview(); });
+  document.getElementById('heroBgGlow').addEventListener('change', e => { d.bgGlow = e.target.checked; renderPagePreview(); });
+}
+
 function renderTextMediaControls(el, sec) {
   const d = sec.data;
   el.innerHTML = `
@@ -1084,6 +1234,7 @@ function addSection(type) {
   pageState.sections.push(sec);
   pageState.selectedId = sec.id;
   document.getElementById('typePicker').classList.remove('is-open');
+  markDirty();
   renderAll();
 }
 
@@ -1092,6 +1243,7 @@ function addSectionAt(idx) {
   const sec = createSection('bento-a');
   pageState.sections.splice(idx, 0, sec);
   pageState.selectedId = sec.id;
+  markDirty();
   renderAll();
 }
 
@@ -1111,12 +1263,14 @@ function moveSection(id, dir) {
   if (newIdx < 0 || newIdx >= pageState.sections.length) return;
   const [sec] = pageState.sections.splice(idx, 1);
   pageState.sections.splice(newIdx, 0, sec);
+  markDirty();
   renderAll();
 }
 
 function deleteSection(id) {
   pageState.sections = pageState.sections.filter(s => s.id !== id);
   if (pageState.selectedId === id) pageState.selectedId = pageState.sections.length ? pageState.sections[0].id : null;
+  markDirty();
   renderAll();
 }
 
@@ -1180,6 +1334,252 @@ function initMegaMenu() {
 }
 
 // ==========================================================
+//  PROTOTYPES — hybrid persistence (file API → localStorage)
+// ==========================================================
+
+const PROTO_STORAGE_KEY = 'gladia-builder-prototypes';
+let _protosCache = [];
+let _hasFileApi = false;
+let _suppressDirty = false;
+
+function loadPrototypes() {
+  return _protosCache;
+}
+
+function savePrototypes(protos) {
+  _protosCache = protos;
+  localStorage.setItem(PROTO_STORAGE_KEY, JSON.stringify(protos));
+  if (_hasFileApi) {
+    fetch('/api/prototypes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(protos),
+    }).catch(() => {});
+  }
+}
+
+async function fetchPrototypes() {
+  try {
+    const res = await fetch('/api/prototypes');
+    if (res.ok) {
+      _protosCache = await res.json();
+      _hasFileApi = true;
+      localStorage.setItem(PROTO_STORAGE_KEY, JSON.stringify(_protosCache));
+      return;
+    }
+  } catch {}
+  try { _protosCache = JSON.parse(localStorage.getItem(PROTO_STORAGE_KEY)) || []; }
+  catch { _protosCache = []; }
+}
+
+function markDirty() {
+  if (_suppressDirty) return;
+  if (!pageState.dirty) {
+    pageState.dirty = true;
+    updateUnsavedDot();
+  }
+}
+
+function updateUnsavedDot() {
+  const dot = document.getElementById('protoUnsavedDot');
+  if (dot) dot.classList.toggle('is-visible', pageState.dirty);
+}
+
+function saveCurrentProto() {
+  const protos = loadPrototypes();
+  if (pageState.activeProtoId) {
+    const idx = protos.findIndex(p => p.id === pageState.activeProtoId);
+    if (idx !== -1) {
+      protos[idx].sections = JSON.parse(JSON.stringify(pageState.sections));
+      protos[idx].secCounter = secCounter;
+      protos[idx].updatedAt = new Date().toISOString();
+      savePrototypes(protos);
+      pageState.dirty = false;
+      updateUnsavedDot();
+      flashSaveBtn();
+      renderProtoDrawer();
+      return;
+    }
+  }
+  const name = prompt('Name your prototype:', 'Prototype ' + (protos.length + 1));
+  if (!name) return;
+  const proto = {
+    id: 'proto_' + Date.now(),
+    name: name,
+    updatedAt: new Date().toISOString(),
+    sections: JSON.parse(JSON.stringify(pageState.sections)),
+    secCounter: secCounter,
+  };
+  protos.unshift(proto);
+  savePrototypes(protos);
+  pageState.activeProtoId = proto.id;
+  pageState.dirty = false;
+  updateUnsavedDot();
+  flashSaveBtn();
+  renderProtoDrawer();
+}
+
+function flashSaveBtn() {
+  const btn = document.getElementById('protoSaveBtn');
+  const txt = document.getElementById('protoSaveBtnText');
+  btn.classList.add('is-saved');
+  txt.textContent = 'Saved!';
+  setTimeout(() => { btn.classList.remove('is-saved'); txt.textContent = 'Save'; }, 1500);
+}
+
+function loadProto(id) {
+  const protos = loadPrototypes();
+  const proto = protos.find(p => p.id === id);
+  if (!proto) return;
+  _suppressDirty = true;
+  pageState.sections = JSON.parse(JSON.stringify(proto.sections));
+  pageState.selectedId = pageState.sections.length ? pageState.sections[0].id : null;
+  pageState.activeProtoId = proto.id;
+  pageState.dirty = false;
+  secCounter = proto.secCounter || pageState.sections.length;
+  updateUnsavedDot();
+  renderAll();
+  _suppressDirty = false;
+  renderProtoDrawer();
+}
+
+function deleteProto(id) {
+  if (!confirm('Delete this prototype?')) return;
+  let protos = loadPrototypes();
+  protos = protos.filter(p => p.id !== id);
+  savePrototypes(protos);
+  if (pageState.activeProtoId === id) {
+    pageState.activeProtoId = null;
+    pageState.dirty = false;
+    updateUnsavedDot();
+  }
+  renderProtoDrawer();
+}
+
+function duplicateProto(id) {
+  const protos = loadPrototypes();
+  const proto = protos.find(p => p.id === id);
+  if (!proto) return;
+  const dup = {
+    id: 'proto_' + Date.now(),
+    name: proto.name + ' (copy)',
+    updatedAt: new Date().toISOString(),
+    sections: JSON.parse(JSON.stringify(proto.sections)),
+    secCounter: proto.secCounter,
+  };
+  protos.unshift(dup);
+  savePrototypes(protos);
+  renderProtoDrawer();
+}
+
+function renameProto(id, newName) {
+  const protos = loadPrototypes();
+  const proto = protos.find(p => p.id === id);
+  if (!proto || !newName.trim()) return;
+  proto.name = newName.trim();
+  proto.updatedAt = new Date().toISOString();
+  savePrototypes(protos);
+  renderProtoDrawer();
+}
+
+function toggleProtoDrawer() {
+  const drawer = document.getElementById('protoDrawer');
+  const backdrop = document.getElementById('protoBackdrop');
+  const isOpen = drawer.classList.contains('is-open');
+  drawer.classList.toggle('is-open', !isOpen);
+  backdrop.classList.toggle('is-open', !isOpen);
+  if (!isOpen) renderProtoDrawer();
+}
+
+function renderProtoDrawer() {
+  const body = document.getElementById('protoDrawerBody');
+  if (!body) return;
+  const protos = loadPrototypes();
+  let html = '<button class="proto-new-btn" onclick="newProtoFromDrawer()">+ New Prototype</button>';
+  if (protos.length === 0) {
+    html += '<div class="proto-empty"><div class="proto-empty-icon">&#128193;</div><div class="proto-empty-text">No saved prototypes yet.<br>Build something and hit Save!</div></div>';
+  } else {
+    protos.forEach(p => {
+      const isActive = p.id === pageState.activeProtoId;
+      const date = new Date(p.updatedAt);
+      const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      const secCount = (p.sections || []).length;
+      html += `<div class="proto-item${isActive ? ' is-active' : ''}">`;
+      html += `<div class="proto-item-top"><span class="proto-item-dot"></span><span class="proto-item-name" ondblclick="startRenameProto(this, '${p.id}')">${escHTML(p.name)}</span></div>`;
+      html += `<div class="proto-item-meta">${dateStr} &middot; ${secCount} section${secCount !== 1 ? 's' : ''}</div>`;
+      html += `<div class="proto-item-actions">`;
+      html += `<button class="proto-item-btn" onclick="loadProto('${p.id}')">Load</button>`;
+      html += `<button class="proto-item-btn" onclick="duplicateProto('${p.id}')">Duplicate</button>`;
+      html += `<button class="proto-item-btn is-danger" onclick="deleteProto('${p.id}')">Delete</button>`;
+      html += `</div></div>`;
+    });
+  }
+  body.innerHTML = html;
+}
+
+function startRenameProto(nameEl, id) {
+  const current = nameEl.textContent;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'proto-item-name-input';
+  input.value = current;
+  nameEl.replaceWith(input);
+  input.focus();
+  input.select();
+  function commit() {
+    renameProto(id, input.value || current);
+  }
+  input.addEventListener('blur', commit);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+    if (e.key === 'Escape') { input.value = current; input.blur(); }
+  });
+}
+
+function newProtoFromDrawer() {
+  const name = prompt('Name your prototype:', 'Prototype ' + (loadPrototypes().length + 1));
+  if (!name) return;
+  _suppressDirty = true;
+  pageState.sections = [];
+  pageState.selectedId = null;
+  secCounter = 0;
+  const proto = {
+    id: 'proto_' + Date.now(),
+    name: name,
+    updatedAt: new Date().toISOString(),
+    sections: [],
+    secCounter: 0,
+  };
+  const protos = loadPrototypes();
+  protos.unshift(proto);
+  savePrototypes(protos);
+  pageState.activeProtoId = proto.id;
+  pageState.dirty = false;
+  updateUnsavedDot();
+  renderAll();
+  _suppressDirty = false;
+  renderProtoDrawer();
+}
+
+// Auto-save on page unload
+window.addEventListener('beforeunload', () => {
+  if (pageState.activeProtoId && pageState.dirty) {
+    const protos = loadPrototypes();
+    const idx = protos.findIndex(p => p.id === pageState.activeProtoId);
+    if (idx !== -1) {
+      protos[idx].sections = JSON.parse(JSON.stringify(pageState.sections));
+      protos[idx].secCounter = secCounter;
+      protos[idx].updatedAt = new Date().toISOString();
+      _protosCache = protos;
+      localStorage.setItem(PROTO_STORAGE_KEY, JSON.stringify(protos));
+      if (_hasFileApi) {
+        navigator.sendBeacon('/api/prototypes', new Blob([JSON.stringify(protos)], { type: 'application/json' }));
+      }
+    }
+  }
+});
+
+// ==========================================================
 //  RENDER ALL
 // ==========================================================
 
@@ -1193,7 +1593,12 @@ function renderAll() {
 //  INIT
 // ==========================================================
 
-renderAll();
+(async () => {
+  await fetchPrototypes();
+  _suppressDirty = true;
+  renderAll();
+  _suppressDirty = false;
+})();
 </script>
 </body>
 </html>
