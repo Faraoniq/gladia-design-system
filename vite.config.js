@@ -3,6 +3,30 @@ import react from '@vitejs/plugin-react'
 import fs from 'fs'
 import path from 'path'
 
+function copyStaticFiles() {
+  return {
+    name: 'copy-static-files',
+    closeBundle() {
+      const dist = path.resolve('dist');
+      const root = path.resolve('.');
+      // Copy static HTML files
+      for (const file of ['index.html', 'builder.html']) {
+        const src = path.join(root, file);
+        if (fs.existsSync(src)) fs.copyFileSync(src, path.join(dist, file));
+      }
+      // Copy fonts directory
+      const fontsDir = path.join(root, 'fonts');
+      const distFonts = path.join(dist, 'fonts');
+      if (fs.existsSync(fontsDir)) {
+        if (!fs.existsSync(distFonts)) fs.mkdirSync(distFonts, { recursive: true });
+        for (const f of fs.readdirSync(fontsDir)) {
+          fs.copyFileSync(path.join(fontsDir, f), path.join(distFonts, f));
+        }
+      }
+    }
+  };
+}
+
 function prototypesApi() {
   const file = path.resolve('prototypes.json');
   return {
@@ -32,7 +56,7 @@ function prototypesApi() {
 }
 
 export default defineConfig({
-  plugins: [react(), prototypesApi()],
+  plugins: [react(), prototypesApi(), copyStaticFiles()],
   server: {
     strictPort: false
   },
